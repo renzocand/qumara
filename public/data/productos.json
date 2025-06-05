@@ -31,14 +31,14 @@
     "categoria": "desayunos",
     "nombre": "Jugo de Manzana",
     "descripcion": "Dulce, ligero y natural. El clásico que nunca falla, hecho con manzanas frescas.",
-    "precio": 5.00,
+    "precio": 5.00, 
     "imagen": "/img/jugo_manzana.webp"
   },
   {
     "categoria": "hamburguesas",
     "nombre": "La Clásica",
     "descripcion": "carne, queso cheddar, tomate, lechuga, papas al hilo",
-    "precio": 8.00,
+    "precio": 9.00,
     "imagen": "/img/hamburguesa_clasica.webp"
   },
   {
