@@ -34,11 +34,12 @@
     "precio": 5.00, 
     "imagen": "/img/jugo_manzana.webp"
   },
+  
   {
     "categoria": "hamburguesas",
     "nombre": "La Clásica",
     "descripcion": "carne, queso cheddar, tomate, lechuga, papas al hilo",
-    "precio": 9.00,
+    "precio": 8.00,
     "imagen": "/img/hamburguesa_clasica.webp"
   },
   {
