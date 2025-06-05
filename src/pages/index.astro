@@ -16,6 +16,9 @@ import Products from "../components/Products.astro";
       <img
         src={hero.src}
         alt="Background Image"
+          loading="eager" 
+  decoding="async" 
+  fetchpriority="high"
         class="object-cover object-center w-full h-full"
       />
       <div class="absolute inset-0 bg-black opacity-50"></div>
