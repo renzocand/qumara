@@ -1,0 +1,84 @@
+[
+  {
+    "id": "prod-1",
+    "categoria": "desayunos",
+    "nombre": "Desayuno Clásico",
+    "descripcion": "Pan tostado, huevos revueltos, mermelada casera y jugo natural de naranja. El desayuno tradicional que necesitas.",
+    "precio": 8.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-2",
+    "categoria": "desayunos",
+    "nombre": "Desayuno Andino",
+    "descripcion": "Quinua con leche, pan artesanal y plátano. Energía natural para empezar el día.",
+    "precio": 9.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-3",
+    "categoria": "desayunos",
+    "nombre": "Tostadas con Palta",
+    "descripcion": "Tostadas crocantes con palta fresca, acompañadas de té o café.",
+    "precio": 7.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-4",
+    "categoria": "desayunos",
+    "nombre": "Pan con Omelette",
+    "descripcion": "Pan francés relleno con omelette de jamón y queso, acompañado de jugo.",
+    "precio": 8.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+    {
+    "id": "prod-15",
+    "categoria": "desayunos",
+    "nombre": "Pan con Omelette",
+    "descripcion": "Pan francés relleno con omelette de jamón y queso, acompañado de jugo.",
+    "precio": 18.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-5",
+    "categoria": "hamburguesas",
+    "nombre": "Hamburguesa Clásica",
+    "descripcion": "Carne jugosa, queso cheddar, tomate, lechuga y mayonesa especial.",
+    "precio": 12.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-6",
+    "categoria": "hamburguesas",
+    "nombre": "Hamburguesa BBQ",
+    "descripcion": "Hamburguesa con doble carne, cebolla caramelizada y salsa BBQ.",
+    "precio": 14.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-7",
+    "categoria": "sandwich",
+    "nombre": "Sándwich de Pollo",
+    "descripcion": "Pan ciabatta con pollo a la plancha, mayonesa casera y lechuga fresca.",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+    {
+    "id": "prod-7",
+    "categoria": "sandwich",
+    "nombre": "Sándwich Qumara",
+    "descripcion": "Qumara sandwich es la mas rica en textura",
+    "precio": 20.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "id": "prod-8",
+    "categoria": "sandwich",
+    "nombre": "Sándwich Vegetariano",
+    "descripcion": "Pan integral con hummus, palta, tomate, pepino y germinados.",
+    "precio": 9.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  }
+]
+
+

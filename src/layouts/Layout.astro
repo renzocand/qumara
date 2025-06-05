@@ -1,22 +1,29 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qumara</title>
+</head>
+<body class="font-sans bg-white text-gray-800">
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+  <!-- Header -->
+  <header class="bg-green-900 text-white px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">QUMARA</h1>
+	<a href="#productos" class="bg-green-700 hover:bg-green-600 text-sm px-4 py-2 rounded">VER PRODUCTOS</a>
+  </header>
+
+  <slot />
+
+
+  <!-- Footer -->
+  <footer class="bg-green-900 text-white text-center py-6">
+    <h1 class="font-bold text-lg mb-2">QUMARA</h1>
+    <p class="text-sm">© 2025 Qumara. Todos los derechos reservados. | Trujillo, Perú</p>
+  </footer>
+
+</body>
+</html>
