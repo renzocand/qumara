@@ -1,84 +1,212 @@
 [
   {
-    "id": "prod-1",
     "categoria": "desayunos",
-    "nombre": "Desayuno Clásico",
-    "descripcion": "Pan tostado, huevos revueltos, mermelada casera y jugo natural de naranja. El desayuno tradicional que necesitas.",
+    "nombre": "Jugo Verde",
+    "descripcion": "Jugo natural detox a base de frutas y vegetales verdes. Refrescante, nutritivo y lleno de energía.",
+    "precio": 8.00,
+    "imagen": "img/jugo_verde_resultado.webp"
+  },
+  {
+    "categoria": "desayunos",
+    "nombre": "Jugo de Papaya",
+    "descripcion": "Jugo natural de papaya, ideal para la digestión. Suave, refrescante y lleno de vitaminas.",
+    "precio": 7.00,
+    "imagen": "/img/papaya_resultado.webp"
+  },
+  {
+    "categoria": "desayunos",
+    "nombre": "Jugo de Piña",
+    "descripcion": "Refrescante, natural y lleno de sabor tropical.",
+    "precio": 7.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "categoria": "desayunos",
+    "nombre": "Jugo Mixto",
+    "descripcion": "Una mezcla deliciosa de frutas frescas, perfecta para recargar energías con sabor y vitalidad.",
+    "precio": 7.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+    {
+    "categoria": "desayunos",
+    "nombre": "Jugo de Manzana",
+    "descripcion": "Dulce, ligero y natural. El clásico que nunca falla, hecho con manzanas frescas.",
+    "precio": 5.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "categoria": "hamburguesas",
+    "nombre": "La Clásica",
+    "descripcion": "carne, queso cheddar, tomate, lechuga, papas al hilo",
     "precio": 8.00,
     "imagen": "/img/hamburguesa_demo.webp"
   },
   {
-    "id": "prod-2",
-    "categoria": "desayunos",
-    "nombre": "Desayuno Andino",
-    "descripcion": "Quinua con leche, pan artesanal y plátano. Energía natural para empezar el día.",
+    "categoria": "hamburguesas",
+    "nombre": "La Royal Qumara",
+    "descripcion": "carne, huevo, tomate, lechuga, papas al hilo",
+    "precio": 8.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Hawaiana",
+    "descripcion": "carne, piña, queso edam, tomate, lechuga, papas al hilo",
     "precio": 9.00,
     "imagen": "/img/hamburguesa_demo.webp"
   },
-  {
-    "id": "prod-3",
-    "categoria": "desayunos",
-    "nombre": "Tostadas con Palta",
-    "descripcion": "Tostadas crocantes con palta fresca, acompañadas de té o café.",
-    "precio": 7.50,
-    "imagen": "/img/hamburguesa_demo.webp"
-  },
-  {
-    "id": "prod-4",
-    "categoria": "desayunos",
-    "nombre": "Pan con Omelette",
-    "descripcion": "Pan francés relleno con omelette de jamón y queso, acompañado de jugo.",
-    "precio": 8.50,
-    "imagen": "/img/hamburguesa_demo.webp"
-  },
-    {
-    "id": "prod-15",
-    "categoria": "desayunos",
-    "nombre": "Pan con Omelette",
-    "descripcion": "Pan francés relleno con omelette de jamón y queso, acompañado de jugo.",
-    "precio": 18.50,
-    "imagen": "/img/hamburguesa_demo.webp"
-  },
-  {
-    "id": "prod-5",
+   {
     "categoria": "hamburguesas",
-    "nombre": "Hamburguesa Clásica",
-    "descripcion": "Carne jugosa, queso cheddar, tomate, lechuga y mayonesa especial.",
-    "precio": 12.00,
+    "nombre": "Americana",
+    "descripcion": "carne, piña, 2 quesos cheddar, tocino, lechuga, tomate, papas al hilo",
+    "precio": 9.50,
     "imagen": "/img/hamburguesa_demo.webp"
   },
-  {
-    "id": "prod-6",
+   {
     "categoria": "hamburguesas",
-    "nombre": "Hamburguesa BBQ",
-    "descripcion": "Hamburguesa con doble carne, cebolla caramelizada y salsa BBQ.",
-    "precio": 14.00,
-    "imagen": "/img/hamburguesa_demo.webp"
-  },
-  {
-    "id": "prod-7",
-    "categoria": "sandwich",
-    "nombre": "Sándwich de Pollo",
-    "descripcion": "Pan ciabatta con pollo a la plancha, mayonesa casera y lechuga fresca.",
+    "nombre": "Parrillera",
+    "descripcion": "carne, chorizo, queso edam, lechuga, tomate, papas al hilo",
     "precio": 10.00,
     "imagen": "/img/hamburguesa_demo.webp"
   },
-    {
-    "id": "prod-7",
-    "categoria": "sandwich",
-    "nombre": "Sándwich Qumara",
-    "descripcion": "Qumara sandwich es la mas rica en textura",
-    "precio": 20.00,
+  {
+    "categoria": "hamburguesas",
+    "nombre": "La Aguja",
+    "descripcion": "carne, queso edam, platano, huevo, lechuga, tomate, papas al hilo",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "La Rompe Dietas",
+    "descripcion": "2 carnes, 2 quesos cheddar, huevo, chorizo, tocino, lechuga, tomate, papas al hilo",
+    "precio": 15.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Big Qumara",
+    "descripcion": "2 carnes, 1 filete de pollo, 2 quesos cheddar, tocino, lechuga, tomate, papas al hilo",
+    "precio": 17.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Filete de Pollo con Queso",
+    "descripcion": "filete, queso edam, lechuga, tomate, papas al hilo",
+    "precio": 7.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Pollo a la Plancha",
+    "descripcion": "filete, palta, lechuga, tomate, papas al hilo",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Chorihuevo",
+    "descripcion": "chorizo, huevo, tomate, lechuga, papas al hilo",
+    "precio": 8.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Chorichesse",
+    "descripcion": "chorizo, queso, lechuga, tomate, papas al hilo",
+    "precio": 8.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "hamburguesas",
+    "nombre": "Choripan",
+    "descripcion": "chorizo, lechuga, tomate, papas al hilo",
+    "precio":7.00,
     "imagen": "/img/hamburguesa_demo.webp"
   },
   {
-    "id": "prod-8",
     "categoria": "sandwich",
-    "nombre": "Sándwich Vegetariano",
-    "descripcion": "Pan integral con hummus, palta, tomate, pepino y germinados.",
-    "precio": 9.50,
+    "nombre": "Huevo Revuelto",
+    "descripcion": "Clásico y delicioso, preparado al instante con huevos frescos. Suave, esponjoso y lleno de sabor.",
+    "precio": 3.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+    {
+    "categoria": "sandwich",
+    "nombre": "Pollo Deshilachado",
+    "descripcion": "Jugoso y bien sazonado, ideal para un sándwich ligero pero lleno de sabor casero.",
+    "precio": 3.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+  {
+    "categoria": "sandwich",
+    "nombre": "Pan con Palta",
+    "descripcion": "Simple, fresco y nutritivo. Palta cremosa sobre pan suave, el desayuno perfecto para empezar bien el día.",
+    "precio": 2.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "sandwich",
+    "nombre": "Pan con Aceituna",
+    "descripcion": "Sabor tradicional y auténtico. Pan suave con aceitunas negras que le dan un toque salado y delicioso.",
+    "precio": 2.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+   {
+    "categoria": "sandwich",
+    "nombre": "Pan con Palta",
+    "descripcion": "Simple, fresco y nutritivo. Palta cremosa sobre pan suave, el desayuno perfecto para empezar bien el día.",
+    "precio": 2.50,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+    {
+    "categoria": "sandwich",
+    "nombre": "Pan fit de Pollo",
+    "descripcion": "pan echo a base de pollo, lechuga, tomate, palta o hamburguesa de verduras",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+      {
+    "categoria": "sandwich",
+    "nombre": "Sandwich Ligth",
+    "descripcion": "pan integral, pollo deshilachado, palta, tomate",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+      {
+    "categoria": "sandwich",
+    "nombre": "Omelette",
+    "descripcion": "pan integral o clásico, pollo demenuzado, queso, huevo",
+    "precio": 10.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+     {
+    "categoria": "sandwich",
+    "nombre": "Pollo con Champiñones",
+    "descripcion": "pan ciabatta, trozos de pollo, champiñones, oregano",
+    "precio": 7.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+     {
+    "categoria": "sandwich",
+    "nombre": "Pollo Gratinado",
+    "descripcion": "pan ciabatta, pollo desmenuzado, jamon, queso, lechuga, tomate",
+    "precio": 7.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+     {
+    "categoria": "sandwich",
+    "nombre": "Pollo con Durazno",
+    "descripcion": "pan ciabatta, pollo deshilachado, durazno, lechuga, tomate",
+    "precio": 7.00,
+    "imagen": "/img/hamburguesa_demo.webp"
+  },
+     {
+    "categoria": "sandwich",
+    "nombre": "Pan Napolitano",
+    "descripcion": "pan ciabatta, queso, jamón, salsa de tomate",
+    "precio": 6.00,
     "imagen": "/img/hamburguesa_demo.webp"
   }
 ]
-
-

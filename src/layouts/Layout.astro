@@ -7,6 +7,8 @@ import '../styles/global.css';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Qumara</title>
+  <link rel="icon" type="image/svg" href="/favicon.svg">
+
 </head>
 <body class="font-sans bg-white text-gray-800">
 
@@ -22,8 +24,13 @@ import '../styles/global.css';
   <!-- Footer -->
   <footer class="bg-green-900 text-white text-center py-6">
     <h1 class="font-bold text-lg mb-2">QUMARA</h1>
-    <p class="text-sm">© 2025 Qumara. Todos los derechos reservados. | Trujillo, Perú</p>
+    <p class="text-sm">© <span id="current-year"></span> Qumara. Todos los derechos reservados. | Trujillo, Perú</p>
   </footer>
-
 </body>
 </html>
+
+
+
+<script is:inline>
+  document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
