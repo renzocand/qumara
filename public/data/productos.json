@@ -2,7 +2,7 @@
   {
     "categoria": "desayunos",
     "nombre": "Jugo Verde",
-    "descripcion": "Jugo natural detox a base de frutas y vegetales verdes. Refrescante, nutritivo y lleno de energía.",
+    "descripcion": "Jugo natural",
     "precio": 8.00,
     "imagen": "img/jugo_verde.webp"
   },
