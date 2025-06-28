@@ -11,14 +11,14 @@
     "nombre": "Jugo de Papaya",
     "descripcion": "Jugo natural de papaya, ideal para la digestión. Suave, refrescante y lleno de vitaminas.",
     "precio": 7.00,
-    "imagen": "/img/papaya.webp"
+    "imagen": "/img/jugo_papaya.webp"
   },
   {
     "categoria": "desayunos",
     "nombre": "Jugo de Piña",
     "descripcion": "Refrescante, natural y lleno de sabor tropical.",
     "precio": 7.00,
-    "imagen": "/img/jugo_piña.webp"
+    "imagen": "/img/piña.webp"
   },
   {
     "categoria": "desayunos",
@@ -40,7 +40,7 @@
     "nombre": "La Clásica",
     "descripcion": "carne, queso cheddar, tomate, lechuga, papas al hilo",
     "precio": 8.00,
-    "imagen": "/img/hamburguesa_clasica.webp"
+    "imagen": "/img/CLASICA.webp"
   },
   {
     "categoria": "hamburguesas",
@@ -54,7 +54,7 @@
     "nombre": "Hawaiana",
     "descripcion": "carne, piña, queso edam, tomate, lechuga, papas al hilo",
     "precio": 9.00,
-    "imagen": "/img/hamburguesa_hawaiana.webp"
+    "imagen": "/img/CLASICA.webp"
   },
    {
     "categoria": "hamburguesas",
@@ -82,21 +82,21 @@
     "nombre": "La Rompe Dietas",
     "descripcion": "2 carnes, 2 quesos cheddar, huevo, chorizo, tocino, lechuga, tomate, papas al hilo",
     "precio": 15.00,
-    "imagen": "/img/hamburguesa_rompe_dietas.webp"
+    "imagen": "/img/rompe_dietas.webp"
   },
    {
     "categoria": "hamburguesas",
     "nombre": "Big Qumara",
     "descripcion": "2 carnes, 1 filete de pollo, 2 quesos cheddar, tocino, lechuga, tomate, papas al hilo",
     "precio": 17.00,
-    "imagen": "/img/hamburguesa_rompe_dietas.webp"
+    "imagen": "/img/CLASICA.webp"
   },
    {
     "categoria": "hamburguesas",
     "nombre": "Filete de Pollo con Queso",
     "descripcion": "filete, queso edam, lechuga, tomate, papas al hilo",
     "precio": 7.50,
-    "imagen": "/img/filete_de_pollo_con_queso.webp"
+    "imagen": "/img/filete_pollo_con_queso.webp"
   },
    {
     "categoria": "hamburguesas",
@@ -117,7 +117,7 @@
     "nombre": "Chorichesse",
     "descripcion": "chorizo, queso, lechuga, tomate, papas al hilo",
     "precio": 8.00,
-    "imagen": "/img/chorichesse.webp"
+    "imagen": "/img/choricheese.webp"
   },
    {
     "categoria": "hamburguesas",
@@ -160,21 +160,21 @@
     "nombre": "Pan fit de Pollo",
     "descripcion": "pan echo a base de pollo, lechuga, tomate, palta o hamburguesa de verduras",
     "precio": 10.00,
-    "imagen": "/img/pan_fit_de_pollo.webp"
+    "imagen": "/img/pan_de_pollo.webp"
   },
       {
     "categoria": "sandwich",
     "nombre": "Sandwich Ligth",
     "descripcion": "pan integral, pollo deshilachado, palta, tomate",
     "precio": 10.00,
-    "imagen": "/img/sandwich_ligth.webp"
+    "imagen": "/img/ligth.webp"
   },
       {
     "categoria": "sandwich",
     "nombre": "Omelette",
     "descripcion": "pan integral o clásico, pollo demenuzado, queso, huevo",
     "precio": 10.00,
-    "imagen": "/img/sandwich_ligth.webp"
+    "imagen": "/img/ligth.webp"
   },
      {
     "categoria": "sandwich",
@@ -188,14 +188,14 @@
     "nombre": "Pollo Gratinado",
     "descripcion": "pan ciabatta, pollo desmenuzado, jamon, queso, lechuga, tomate",
     "precio": 7.00,
-    "imagen": "/img/gratinado.webp"
+    "imagen": "/img/pollo_gratinado.webp"
   },
      {
     "categoria": "sandwich",
     "nombre": "Pollo con Durazno",
     "descripcion": "pan ciabatta, pollo deshilachado, durazno, lechuga, tomate",
     "precio": 7.00,
-    "imagen": "/img/pan_durazno.webp"
+    "imagen": "/img/pollo_durazno.webp"
   },
      {
     "categoria": "sandwich",
