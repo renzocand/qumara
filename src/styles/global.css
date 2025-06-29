@@ -2,7 +2,7 @@
 
 .benefit-card {
     border: 1px solid #e5e7eb;     /* Igual que border-gray-300 */
-    border-top: 4px solid #0A3732; /* Borde oscuro solo arriba */
+    border-top: 4px solid #fbaa19; /* Borde oscuro solo arriba */
     border-radius: 0.5rem;         /* rounded-lg */
     padding: 1.5rem;               /* p-6 */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
