@@ -31,7 +31,7 @@
     "categoria": "desayunos",
     "nombre": "Jugo de Manzana",
     "descripcion": "Dulce, ligero y natural. El clásico que nunca falla, hecho con manzanas frescas.",
-    "precio": 5.00, 
+    "precio": 6.50, 
     "imagen": "/img/jugo_manzana.webp"
   },
   
@@ -54,28 +54,28 @@
     "nombre": "Hawaiana",
     "descripcion": "carne, piña, queso edam, tomate, lechuga, papas al hilo",
     "precio": 9.00,
-    "imagen": "/img/CLASICA.webp"
+    "imagen": "/img/proceso.webp"
   },
    {
     "categoria": "hamburguesas",
     "nombre": "Americana",
     "descripcion": "carne, piña, 2 quesos cheddar, tocino, lechuga, tomate, papas al hilo",
-    "precio": 9.50,
-    "imagen": "/img/hamburguesa_americana.webp"
+    "precio": 10.00,
+    "imagen": "/img/proceso.webp"
   },
    {
     "categoria": "hamburguesas",
     "nombre": "Parrillera",
     "descripcion": "carne, chorizo, queso edam, lechuga, tomate, papas al hilo",
-    "precio": 10.00,
-    "imagen": "/img/hamburguesa_parrillera.webp"
+    "precio": 12.00,
+    "imagen": "/img/proceso.webp"
   },
   {
     "categoria": "hamburguesas",
     "nombre": "La Aguja",
     "descripcion": "carne, queso edam, platano, huevo, lechuga, tomate, papas al hilo",
-    "precio": 10.00,
-    "imagen": "/img/hamburguesa_aguja.webp"
+    "precio": 12.00,
+    "imagen": "/img/proceso.webp"
   },
    {
     "categoria": "hamburguesas",
@@ -89,13 +89,13 @@
     "nombre": "Big Qumara",
     "descripcion": "2 carnes, 1 filete de pollo, 2 quesos cheddar, tocino, lechuga, tomate, papas al hilo",
     "precio": 17.00,
-    "imagen": "/img/CLASICA.webp"
+    "imagen": "/img/proceso.webp"
   },
    {
     "categoria": "hamburguesas",
     "nombre": "Filete de Pollo con Queso",
     "descripcion": "filete, queso edam, lechuga, tomate, papas al hilo",
-    "precio": 7.50,
+    "precio": 8.00,
     "imagen": "/img/filete_pollo_con_queso.webp"
   },
    {
@@ -138,21 +138,21 @@
     "nombre": "Pollo Deshilachado",
     "descripcion": "Jugoso y bien sazonado, ideal para un sándwich ligero pero lleno de sabor casero.",
     "precio": 3.50,
-    "imagen": "/img/pan_con_pollo.webp"
+    "imagen": "/img/proceso.webp"
   },
   {
     "categoria": "sandwich",
     "nombre": "Pan con Palta",
     "descripcion": "Simple, fresco y nutritivo. Palta cremosa sobre pan suave, el desayuno perfecto para empezar bien el día.",
-    "precio": 2.50,
-    "imagen": "/img/palta.webp"
+    "precio": 3.00,
+    "imagen": "/img/proceso.webp"
   },
    {
     "categoria": "sandwich",
     "nombre": "Pan con Aceituna",
     "descripcion": "Sabor tradicional y auténtico. Pan suave con aceitunas negras que le dan un toque salado y delicioso.",
     "precio": 2.50,
-    "imagen": "/img/aceituna.webp"
+    "imagen": "/img/proceso.webp"
   },
   
     {
@@ -173,15 +173,15 @@
     "categoria": "sandwich",
     "nombre": "Omelette",
     "descripcion": "pan integral o clásico, pollo demenuzado, queso, huevo",
-    "precio": 10.00,
-    "imagen": "/img/ligth.webp"
+    "precio": 8.00,
+    "imagen": "/img/proceso.webp"
   },
      {
     "categoria": "sandwich",
     "nombre": "Pollo con Champiñones",
     "descripcion": "pan ciabatta, trozos de pollo, champiñones, oregano",
-    "precio": 7.00,
-    "imagen": "/img/champiñones.webp"
+    "precio": 8.00,
+    "imagen": "/img/proceso.webp"
   },
      {
     "categoria": "sandwich",
@@ -201,7 +201,7 @@
     "categoria": "sandwich",
     "nombre": "Pan Napolitano",
     "descripcion": "pan ciabatta, queso, jamón, salsa de tomate",
-    "precio": 6.00,
-    "imagen": "/img/napolitano.webp"
+    "precio": 7.00,
+    "imagen": "/img/proceso.webp"
   }
 ]
