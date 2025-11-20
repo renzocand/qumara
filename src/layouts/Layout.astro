@@ -3,18 +3,61 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CartStore from '../components/CartStore.astro';
 import CartButton from '../components/CartButton.astro';
+import SweetAlert from '../components/SweetAlert.astro';
 import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+}
+
+const {
+  title = 'Señora Qumara - Sabores Caseros',
+  description = 'Restaurante Señora Qumara - Los mejores platos caseros de Trujillo con delivery a domicilio.',
+  image = 'https://senoraqumara.com/img/logo.png',
+  url = Astro.url.href,
+  type = 'website'
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Señora Qumara</title>
-    <meta name="description" content="Restaurante Señora Qumara - sabores caseros" />
+    
+    <!-- SEO Básico -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Señora Qumara" />
+    <meta property="og:locale" content="es_PE" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={url} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Señora Qumara" />
+    <meta name="keywords" content="restaurante, comida casera, delivery, Trujillo, Perú" />
+    
     <link rel="icon" href="/favicon.svg" />
   </head>
   <body>
+    <SweetAlert />
     <CartStore />
     <Header />
     <main>

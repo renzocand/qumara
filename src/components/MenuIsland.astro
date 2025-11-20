@@ -11,6 +11,17 @@
 
 <script is:inline>
 (() => {
+  // Helper para mostrar alertas
+  function showAlert(options) {
+    if (typeof Swal !== 'undefined') {
+      return Swal.fire(options);
+    } else {
+      // Fallback a alert nativa
+      alert(options.text || options.title);
+      return Promise.resolve({ isConfirmed: true });
+    }
+  }
+
   // Fetch the prototype JSON and initialize the menu UI
   const dataUrl = '/data/menu_prototipo.json';
 
@@ -108,18 +119,20 @@
       const quantity = cartItem ? cartItem.quantity : 0;
       
       card.innerHTML = `
-        <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy">
-        <div class="product-info">
-          <h3 class="product-name">${product.name}</h3>
-          <p style="font-size:0.9rem; color:#777; margin-bottom:0.5rem;">${product.category} > ${product.subcategory}</p>
-          <p class="product-price">S/. ${Number(product.price).toFixed(2)}</p>
-          <div class="cart-controls-wrapper">
-            <button class="btn-add-cart" data-product='${JSON.stringify(product)}' style="display: ${quantity > 0 ? 'none' : 'block'}">🛒 Añadir al Carrito</button>
-            <div class="quantity-controls" style="display: ${quantity > 0 ? 'flex' : 'none'}">
-              <button class="btn-quantity-minus" data-id="${product.id}">-</button>
-              <span class="quantity-display">${quantity}</span>
-              <button class="btn-quantity-plus" data-id="${product.id}">+</button>
-            </div>
+        <a href="/producto/${product.slug}" class="product-link">
+          <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy">
+          <div class="product-info">
+            <h3 class="product-name">${product.name}</h3>
+            <p style="font-size:0.9rem; color:#777; margin-bottom:0.5rem;">${product.category} > ${product.subcategory}</p>
+            <p class="product-price">S/. ${Number(product.price).toFixed(2)}</p>
+          </div>
+        </a>
+        <div class="cart-controls-wrapper">
+          <button class="btn-add-cart" data-product='${JSON.stringify(product)}' style="display: ${quantity > 0 ? 'none' : 'block'}">🛒 Añadir al Carrito</button>
+          <div class="quantity-controls" style="display: ${quantity > 0 ? 'flex' : 'none'}">
+            <button class="btn-quantity-minus" data-id="${product.id}">-</button>
+            <span class="quantity-display">${quantity}</span>
+            <button class="btn-quantity-plus" data-id="${product.id}">+</button>
           </div>
         </div>
       `;
@@ -143,7 +156,12 @@
         
         if (!window.cartStore) {
           console.error('CartStore no inicializado');
-          alert('Error: Sistema de carrito no disponible');
+          showAlert({
+            icon: 'error',
+            title: 'Error',
+            text: 'Sistema de carrito no disponible',
+            confirmButtonColor: '#8B4513'
+          });
           return;
         }
         
@@ -151,12 +169,31 @@
         
         if (success) {
           updateProductControls(product.id);
+          showAlert({
+            icon: 'success',
+            title: '¡Agregado!',
+            text: `${product.name} agregado al carrito`,
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true,
+            position: 'top-end'
+          });
         } else {
-          alert('No se pudo añadir el producto al carrito');
+          showAlert({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo añadir el producto al carrito',
+            confirmButtonColor: '#8B4513'
+          });
         }
       } catch (error) {
         console.error('Error al añadir producto:', error);
-        alert('Error al añadir el producto');
+        showAlert({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al añadir el producto',
+          confirmButtonColor: '#8B4513'
+        });
       }
     }
     
@@ -166,7 +203,19 @@
       if (window.cartStore) {
         const item = window.cartStore.items.find(i => i.id === productId);
         if (item) {
-          window.cartStore.updateQuantity(productId, item.quantity - 1);
+          const newQuantity = item.quantity - 1;
+          if (newQuantity === 0) {
+            showAlert({
+              icon: 'success',
+              title: 'Producto eliminado',
+              text: `${item.name} eliminado del carrito`,
+              showConfirmButton: false,
+              timer: 1500,
+              toast: true,
+              position: 'top-end'
+            });
+          }
+          window.cartStore.updateQuantity(productId, newQuantity);
           updateProductControls(productId);
         }
       }
@@ -335,11 +384,24 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
   }
 
+  :global(.product-link) {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
   :global(.product-img) {
     width: 100%;
     height: 200px;
     object-fit: cover;
     background-color: #eee;
+    transition: var(--transition);
+  }
+
+  :global(.product-link:hover .product-img) {
+    transform: scale(1.05);
   }
 
   :global(.product-info) {

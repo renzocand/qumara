@@ -2,233 +2,311 @@
   {
     "id": 1,
     "name": "Jugo Verde",
+    "slug": "jugo-verde",
     "price": 8,
     "category": "Desayunos",
     "subcategory": "Jugos Naturales",
-    "img": "/img/jugo_verde.webp"
+    "img": "/img/jugo_verde.webp",
+    "description": "Mezcla refrescante de piña, manzana, espinaca y limón. Energía natural para empezar el día."
   },
   {
     "id": 2,
     "name": "Jugo de Papaya",
+    "slug": "jugo-de-papaya",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Jugos Naturales",
-    "img": "/img/jugo_papaya.webp"
+    "img": "/img/jugo_papaya.webp",
+    "description": "Papaya fresca licuada al instante, dulce, ligera y llena de fibra."
   },
   {
     "id": 3,
     "name": "Jugo de Piña",
+    "slug": "jugo-de-pina",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Jugos Naturales",
-    "img": "/img/piña.webp"
+    "img": "/img/piña.webp",
+    "description": "Piña dorada recién licuada, ideal para hidratar y refrescar."
   },
   {
     "id": 4,
     "name": "Jugo Mixto",
+    "slug": "jugo-mixto",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Jugos Naturales",
-    "img": "/img/jugo_mixto.webp"
+    "img": "/img/jugo_mixto.webp",
+    "description": "Combinación perfecta de frutas frescas para un sabor balanceado y nutritivo."
   },
   {
     "id": 5,
     "name": "Jugo de Manzana",
+    "slug": "jugo-de-manzana",
     "price": 6.5,
     "category": "Desayunos",
     "subcategory": "Jugos Naturales",
-    "img": "/img/jugo_manzana.webp"
+    "img": "/img/jugo_manzana.webp",
+    "description": "Manzana verde natural, sin azúcar añadida. Suave, dulce y antioxidante."
   },
   {
     "id": 6,
     "name": "La Clásica",
+    "slug": "la-clasica",
     "price": 8.5,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/CLASICA.webp"
+    "img": "/img/CLASICA.webp",
+    "description": "Hamburguesa tradicional con carne jugosa, lechuga, tomate y salsas artesanales."
   },
   {
     "id": 7,
     "name": "La Royal Qumara",
+    "slug": "la-royal-qumara",
     "price": 8.5,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/royal.webp"
+    "img": "/img/royal.webp",
+    "description": "Nuestra hamburguesa estrella: carne doble, queso fundido y salsa especial Qumara."
   },
   {
     "id": 8,
     "name": "Hawaiana",
+    "slug": "hawaiana",
     "price": 9,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Carne a la parrilla con piña a la plancha, queso y salsas de casa. Dulce y salada."
   },
   {
     "id": 9,
     "name": "Americana",
+    "slug": "americana",
     "price": 10,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Carne a la parrilla, queso cheddar, tocino crocante y mayonesa americana."
   },
   {
     "id": 10,
     "name": "Parrillera",
+    "slug": "parrillera",
     "price": 12,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Carne a la parrilla con queso, champiñones salteados y salsa ahumada."
   },
   {
     "id": 11,
     "name": "La Aguja",
+    "slug": "la-aguja",
     "price": 12,
     "category": "Hamburguesas",
     "subcategory": "Carne",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Hamburguesa de sabor intenso con nuestra mezcla especial Qumara y queso derretido."
   },
   {
     "id": 12,
     "name": "La Rompe Dietas",
+    "slug": "la-rompe-dietas",
     "price": 15,
     "category": "Hamburguesas",
     "subcategory": "Especiales",
-    "img": "/img/rompe_dietas.webp"
+    "img": "/img/rompe_dietas.webp",
+    "description": "Hamburguesa XL con doble carne, doble queso y extra de salsas. Solo para valientes."
   },
   {
     "id": 13,
     "name": "Big Qumara",
+    "slug": "big-qumara",
     "price": 17,
     "category": "Hamburguesas",
     "subcategory": "Especiales",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Versión grande de la clásica Qumara: carne generosa, queso, verduras y salsas."
   },
   {
     "id": 14,
     "name": "Filete de Pollo con Queso",
+    "slug": "filete-de-pollo-con-queso",
     "price": 8,
     "category": "Hamburguesas",
     "subcategory": "Pollo",
-    "img": "/img/filete_pollo_con_queso.webp"
+    "img": "/img/filete_pollo_con_queso.webp",
+    "description": "Filete de pechuga jugoso a la plancha con queso fundido encima."
   },
   {
     "id": 15,
     "name": "Pollo a la Plancha",
+    "slug": "pollo-a-la-plancha",
     "price": 10,
     "category": "Hamburguesas",
     "subcategory": "Pollo",
-    "img": "/img/pollo_plancha.webp"
+    "img": "/img/pollo_plancha.webp",
+    "description": "Pechuga de pollo sazonada y cocinada al grill, ligera y deliciosa."
   },
   {
     "id": 16,
     "name": "Chorihuevo",
+    "slug": "chorihuevo",
     "price": 8,
     "category": "Hamburguesas",
     "subcategory": "Chorizo",
-    "img": "/img/chorihuevo.webp"
+    "img": "/img/chorihuevo.webp",
+    "description": "Pan artesanal con chorizo dorado y huevo jugoso, perfecto para empezar el día."
   },
   {
     "id": 17,
     "name": "Chorichesse",
+    "slug": "chorichesse",
     "price": 8,
     "category": "Hamburguesas",
     "subcategory": "Chorizo",
-    "img": "/img/choricheese.webp"
+    "img": "/img/choricheese.webp",
+    "description": "Chorizo a la plancha con queso derretido en pan crocante."
   },
   {
     "id": 18,
     "name": "Choripan",
+    "slug": "choripan",
     "price": 7,
     "category": "Hamburguesas",
     "subcategory": "Chorizo",
-    "img": "/img/choripan.webp"
+    "img": "/img/choripan.webp",
+    "description": "Clásico argentino: chorizo al grill con salsas caseras en pan fresco."
   },
   {
     "id": 19,
     "name": "Huevo Revuelto",
+    "slug": "huevo-revuelto",
     "price": 3.5,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/huevo_revuelto.webp"
+    "img": "/img/huevo_revuelto.webp",
+    "description": "Huevos suaves y cremosos al estilo casero."
   },
   {
     "id": 20,
     "name": "Pollo Deshilachado",
+    "slug": "pollo-deshilachado",
     "price": 3.5,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Pechuga de pollo cocida y deshilachada, ligera y llena de sabor."
   },
   {
     "id": 21,
     "name": "Pan con Palta",
+    "slug": "pan-con-palta",
     "price": 3,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Pan fresco con palta cremosa y un toque de limón. Simple y perfecto."
   },
   {
     "id": 22,
     "name": "Pan con Aceituna",
+    "slug": "pan-con-aceituna",
     "price": 2.5,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Pan suave acompañado de aceituna negra picada, ideal para desayunos."
   },
   {
     "id": 23,
     "name": "Pan fit de Pollo",
+    "slug": "pan-fit-de-pollo",
     "price": 10,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/pan_de_pollo.webp"
+    "img": "/img/pan_de_pollo.webp",
+    "description": "Pan integral con pollo a la plancha, ideal para un desayuno saludable."
   },
   {
     "id": 24,
     "name": "Sandwich Ligth",
+    "slug": "sandwich-ligth",
     "price": 10,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/ligth.webp"
+    "img": "/img/ligth.webp",
+    "description": "Pan integral, pollo al grill, verduras frescas y salsas ligeras."
   },
   {
     "id": 25,
     "name": "Omelette",
+    "slug": "omelette",
     "price": 8,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Omelette esponjoso relleno a elección, cocinado al punto perfecto."
   },
   {
     "id": 26,
     "name": "Pollo con Champiñones",
+    "slug": "pollo-con-champinones",
     "price": 8,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Pollo en salsa cremosa de champiñones, suave y lleno de sabor."
   },
   {
     "id": 27,
     "name": "Pollo Gratinado",
+    "slug": "pollo-gratinado",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/pollo_gratinado.webp"
+    "img": "/img/pollo_gratinado.webp",
+    "description": "Pechuga de pollo horneada con queso gratinado y especias finas."
   },
   {
     "id": 28,
     "name": "Pollo con Durazno",
+    "slug": "pollo-con-durazno",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/pollo_durazno.webp"
+    "img": "/img/pollo_durazno.webp",
+    "description": "Combinación dulce y salada: pollo a la plancha con duraznos en almíbar."
   },
   {
     "id": 29,
     "name": "Pan Napolitano",
+    "slug": "pan-napolitano",
     "price": 7,
     "category": "Desayunos",
     "subcategory": "Sandwiches",
-    "img": "/img/proceso.webp"
+    "img": "/img/proceso.webp",
+    "description": "Pan caliente con jamón, queso y tomate. Sencillo, crujiente y delicioso."
+  },
+  {
+    "id": 30,
+    "name": "Kefir",
+    "slug": "kefir",
+    "price": 10,
+    "category": "Artesanales",
+    "subcategory": "Probioticos",
+    "img": "/img/proceso.webp",
+    "description": "Bebida probiótica artesanal, fermentada naturalmente. Suave y muy saludable."
+  },
+  {
+    "id": 31,
+    "name": "Mantequilla de mani",
+    "slug": "mantequilla-de-mani",
+    "price": 25,
+    "category": "Artesanales",
+    "subcategory": "Mantequillas",
+    "img": "/img/proceso.webp",
+    "description": "Mantequilla de maní 100% natural, sin azúcar. Cremosa, energética y casera."
   }
 ]

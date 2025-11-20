@@ -1,0 +1,16 @@
+---
+// Componente para cargar SweetAlert2
+---
+
+<script>
+  import Swal from 'sweetalert2';
+  
+  // Hacer Swal disponible globalmente
+  if (typeof window !== 'undefined') {
+    window.Swal = Swal;
+  }
+</script>
+
+<style is:global>
+  @import 'sweetalert2/dist/sweetalert2.min.css';
+</style>

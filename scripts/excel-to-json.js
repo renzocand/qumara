@@ -11,6 +11,16 @@ const excelPath = path.join(__dirname, '../public/restaurant_products.xlsx');
 const menuJsonPath = path.join(__dirname, '../public/data/menu_prototipo.json');
 const deliveryJsonPath = path.join(__dirname, '../public/data/deliveries.json');
 
+// Función para crear slug a partir del nombre
+function createSlug(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+    .replace(/[^a-z0-9]+/g, '-')      // Reemplazar caracteres especiales con guiones
+    .replace(/(^-|-$)/g, '');          // Eliminar guiones al inicio y final
+}
+
 // Leer el archivo Excel
 const workbook = XLSX.readFile(excelPath);
 
@@ -29,13 +39,16 @@ const activeData = rawProductData.filter(row => {
 
 // Transformar al formato requerido
 const products = activeData.map((row, index) => {
+  const productName = row.nombre || row.Nombre || row.name || row.Name || '';
   return {
     id: index + 1,
-    name: row.nombre || row.Nombre || row.name || row.Name || '',
+    name: productName,
+    slug: createSlug(productName),
     price: parseFloat(row.precio || row.Precio || row.price || row.Price || 0),
     category: row.categoria || row.Categoria || row.category || row.Category || '',
     subcategory: row.subcategoria || row.Subcategoria || row.subcategory || row.Subcategory || '',
-    img: row.imagen || row.Imagen || row.img || row.Image || '/img/proceso.webp'
+    img: row.imagen || row.Imagen || row.img || row.Image || '/img/proceso.webp',
+    description: row.descripcion || row.Descripcion || row.description || row.Description || ''
   };
 });
 

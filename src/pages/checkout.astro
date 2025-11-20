@@ -80,13 +80,24 @@ import CartStore from '../components/CartStore.astro';
 </Layout>
 
 <script is:inline>
+  // Helper para mostrar alertas
+  function showAlert(options) {
+    if (typeof Swal !== 'undefined') {
+      return Swal.fire(options);
+    } else {
+      alert(options.text || options.title);
+      return Promise.resolve({ isConfirmed: true });
+    }
+  }
+
   let deliveryZones = [];
   let selectedZone = null;
 
-  const summaryItemsEl = document.getElementById('summary-items');
   const deliveryZoneSelect = document.getElementById('delivery-zone');
+  const summaryItemsEl = document.getElementById('summary-items');
   const costSubtotalEl = document.getElementById('cost-subtotal');
   const costDeliveryEl = document.getElementById('cost-delivery');
+  const freeShippingMessageEl = document.getElementById('free-shipping-message');
   const minOrderInfoEl = document.getElementById('min-order-info');
   const costTotalEl = document.getElementById('cost-total');
   const sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
@@ -96,8 +107,14 @@ import CartStore from '../components/CartStore.astro';
   // Verificar que haya items en el carrito
   function checkCart() {
     if (!window.cartStore || window.cartStore.items.length === 0) {
-      alert('Tu carrito está vacío. Serás redirigido al menú.');
-      window.location.href = '/menu';
+      showAlert({
+        icon: 'warning',
+        title: 'Carrito vacío',
+        text: 'Tu carrito está vacío. Serás redirigido al menú.',
+        confirmButtonColor: '#8B4513'
+      }).then(() => {
+        window.location.href = '/menu';
+      });
       return false;
     }
     return true;
@@ -126,7 +143,12 @@ import CartStore from '../components/CartStore.astro';
       })
       .catch(error => {
         console.error('Error cargando zonas:', error);
-        alert('Error al cargar zonas de delivery');
+        showAlert({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al cargar zonas de delivery',
+          confirmButtonColor: '#8B4513'
+        });
       });
   }
 
@@ -230,20 +252,35 @@ import CartStore from '../components/CartStore.astro';
 
     // Validaciones
     if (!customerName) {
-      alert('Por favor ingresa tu nombre y apellido');
+      showAlert({
+        icon: 'warning',
+        title: 'Nombre requerido',
+        text: 'Por favor ingresa tu nombre y apellido',
+        confirmButtonColor: '#8B4513'
+      });
       customerNameInput?.focus();
       return;
     }
 
     if (!selectedZone) {
-      alert('Por favor selecciona una zona de delivery');
+      showAlert({
+        icon: 'warning',
+        title: 'Zona requerida',
+        text: 'Por favor selecciona una zona de delivery',
+        confirmButtonColor: '#8B4513'
+      });
       deliveryZoneSelect?.focus();
       return;
     }
 
     const subtotal = window.cartStore.getTotal();
     if (subtotal < selectedZone.minOrder) {
-      alert(`El pedido mínimo para ${selectedZone.district} es S/. ${selectedZone.minOrder.toFixed(2)}`);
+      showAlert({
+        icon: 'info',
+        title: 'Pedido mínimo no alcanzado',
+        text: `El pedido mínimo para ${selectedZone.district} es S/. ${selectedZone.minOrder.toFixed(2)}. Tu pedido actual es S/. ${subtotal.toFixed(2)}`,
+        confirmButtonColor: '#8B4513'
+      });
       return;
     }
 
