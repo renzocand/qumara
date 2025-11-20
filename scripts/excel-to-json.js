@@ -8,18 +8,21 @@ const __dirname = path.dirname(__filename);
 
 // Rutas
 const excelPath = path.join(__dirname, '../public/restaurant_products.xlsx');
-const jsonPath = path.join(__dirname, '../public/data/menu_prototipo.json');
+const menuJsonPath = path.join(__dirname, '../public/data/menu_prototipo.json');
+const deliveryJsonPath = path.join(__dirname, '../public/data/deliveries.json');
 
 // Leer el archivo Excel
 const workbook = XLSX.readFile(excelPath);
-const sheetName = workbook.SheetNames[0];
-const worksheet = workbook.Sheets[sheetName];
+
+// ========== PROCESAR HOJA DE PRODUCTOS ==========
+const productSheetName = workbook.SheetNames[0];
+const productWorksheet = workbook.Sheets[productSheetName];
 
 // Convertir a JSON
-const rawData = XLSX.utils.sheet_to_json(worksheet);
+const rawProductData = XLSX.utils.sheet_to_json(productWorksheet);
 
 // Filtrar solo productos ACTIVOS
-const activeData = rawData.filter(row => {
+const activeData = rawProductData.filter(row => {
   const status = (row.status || row.Status || row.STATUS || '').toString().trim().toUpperCase();
   return status === 'ACTIVO';
 });
@@ -36,9 +39,34 @@ const products = activeData.map((row, index) => {
   };
 });
 
-// Guardar en JSON con saltos de línea Unix (LF)
-const jsonContent = JSON.stringify(products, null, 2).replace(/\r\n/g, '\n');
-fs.writeFileSync(jsonPath, jsonContent, 'utf-8');
+// Guardar productos en JSON
+const productsJsonContent = JSON.stringify(products, null, 2).replace(/\r\n/g, '\n');
+fs.writeFileSync(menuJsonPath, productsJsonContent, 'utf-8');
 
 console.log('✅ Conversión exitosa!');
-console.log(`📁 ${products.length} productos exportados a: ${jsonPath}`);
+console.log(`📁 ${products.length} productos exportados a: ${menuJsonPath}`);
+
+// ========== PROCESAR HOJA DE DELIVERIES ==========
+const deliverySheet = workbook.Sheets['Deliveries'];
+if (deliverySheet) {
+  const rawDeliveryData = XLSX.utils.sheet_to_json(deliverySheet);
+  
+  // Transformar datos de delivery
+  const deliveries = rawDeliveryData.map((row, index) => {
+    return {
+      id: index + 1,
+      district: row.distrito || row.Distrito || row.district || row.District || '',
+      price: parseFloat(row.precio || row.Precio || row.price || row.Price || 0),
+      time: row.tiempo || row.Tiempo || row.time || row.Time || '',
+      minOrder: parseFloat(row.pedidoMinimo || row.PedidoMinimo || row.minOrder || row.MinOrder || 0)
+    };
+  });
+  
+  // Guardar deliveries en JSON
+  const deliveriesJsonContent = JSON.stringify(deliveries, null, 2).replace(/\r\n/g, '\n');
+  fs.writeFileSync(deliveryJsonPath, deliveriesJsonContent, 'utf-8');
+  
+  console.log(`📁 ${deliveries.length} zonas de delivery exportadas a: ${deliveryJsonPath}`);
+} else {
+  console.log('⚠️  No se encontró la hoja "Deliveries" en el Excel');
+}

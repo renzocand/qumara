@@ -57,11 +57,11 @@ const { product, class: className = '', text = 'Añadir al Carrito' } = Astro.pr
   }
 </style>
 
-<script>
+<script is:inline>
   // Manejador global para todos los botones de añadir al carrito
   // Usando event delegation para mejor performance
-  document.addEventListener('click', (e: Event) => {
-    const target = e.target as HTMLElement;
+  document.addEventListener('click', (e) => {
+    const target = e.target;
     
     if (target.classList.contains('add-to-cart-btn')) {
       e.preventDefault();

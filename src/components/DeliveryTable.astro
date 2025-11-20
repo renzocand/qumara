@@ -1,39 +1,58 @@
 ---
 ---
-<table class="delivery-table">
-  <caption>Tabla de precios por distrito</caption>
-  <thead>
-    <tr>
-      <th scope="col">Distrito</th>
-      <th scope="col">Precio de Envío</th>
-      <th scope="col">Tiempo Estimado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Trujillo</td>
-      <td>S/. 5.00</td>
-      <td>30 - 45 min</td>
-    </tr>
-    <tr>
-      <td>La Esperanza</td>
-      <td>S/. 6.00</td>
-      <td>40 - 50 min</td>
-    </tr>
-    <tr>
-      <td>Victor Larco</td>
-      <td>S/. 7.00</td>
-      <td>35 - 45 min</td>
-    </tr>
-    <tr>
-      <td>El Porvenir</td>
-      <td>S/. 8.00</td>
-      <td>50 - 60 min</td>
-    </tr>
-  </tbody>
-</table>
+<div class="delivery-container">
+  <table class="delivery-table">
+    <caption>Tabla de precios por distrito</caption>
+    <thead>
+      <tr>
+        <th scope="col">Distrito</th>
+        <th scope="col">Precio de Envío</th>
+        <th scope="col">Tiempo Estimado</th>
+        <th scope="col">Pedido Mínimo</th>
+      </tr>
+    </thead>
+    <tbody id="delivery-tbody">
+      <tr>
+        <td colspan="4" style="text-align: center;">Cargando zonas de delivery...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script is:inline>
+  (() => {
+    const tbody = document.getElementById('delivery-tbody');
+    if (!tbody) return;
+
+    fetch('/data/deliveries.json')
+      .then(response => response.json())
+      .then(deliveries => {
+        if (deliveries.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay zonas de delivery disponibles</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = deliveries.map(delivery => `
+          <tr>
+            <td><strong>${delivery.district}</strong></td>
+            <td class="price">S/. ${delivery.price.toFixed(2)}</td>
+            <td>${delivery.time}</td>
+            <td>S/. ${delivery.minOrder.toFixed(2)}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(error => {
+        console.error('Error cargando deliveries:', error);
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Error al cargar zonas de delivery</td></tr>';
+      });
+  })();
+</script>
 
 <style>
+  .delivery-container {
+    overflow-x: auto;
+  }
+
   .delivery-table {
     width: 100%;
     border-collapse: collapse;
@@ -41,22 +60,51 @@
     box-shadow: var(--shadow);
     border-radius: var(--radius);
     overflow: hidden;
+    min-width: 600px;
   }
 
-  .delivery-table th,
-  .delivery-table td {
+  .delivery-table caption {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-dark);
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid #eee;
   }
 
   .delivery-table th {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
     background-color: var(--primary-color);
     color: var(--white);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  :global(.delivery-table td) {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  :global(#delivery-tbody tr:hover) {
+    background-color: var(--secondary-color);
+  }
+
+  :global(#delivery-tbody .price) {
+    color: var(--primary-dark);
+    font-weight: 700;
     font-size: 1.1rem;
   }
 
-  .delivery-table tr:hover {
-    background-color: #f9f9f9;
+  @media (max-width: 768px) {
+    .delivery-table {
+      font-size: 0.9rem;
+    }
+
+    .delivery-table th,
+    .delivery-table td {
+      padding: 0.75rem 0.5rem;
+    }
   }
 </style>
