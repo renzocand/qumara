@@ -101,13 +101,26 @@
     filteredData.forEach(product => {
       const card = document.createElement('article');
       card.className = 'product-card';
+      card.dataset.productId = product.id;
+      
+      // Verificar si el producto ya está en el carrito
+      const cartItem = window.cartStore?.items.find(item => item.id === product.id);
+      const quantity = cartItem ? cartItem.quantity : 0;
+      
       card.innerHTML = `
         <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy">
         <div class="product-info">
           <h3 class="product-name">${product.name}</h3>
           <p style="font-size:0.9rem; color:#777; margin-bottom:0.5rem;">${product.category} > ${product.subcategory}</p>
           <p class="product-price">S/. ${Number(product.price).toFixed(2)}</p>
-          <button class="btn-add-cart" data-product='${JSON.stringify(product)}' aria-label="Añadir ${product.name} al carrito">🛒 Añadir al Carrito</button>
+          <div class="cart-controls-wrapper">
+            <button class="btn-add-cart" data-product='${JSON.stringify(product)}' style="display: ${quantity > 0 ? 'none' : 'block'}">🛒 Añadir al Carrito</button>
+            <div class="quantity-controls" style="display: ${quantity > 0 ? 'flex' : 'none'}">
+              <button class="btn-quantity-minus" data-id="${product.id}">-</button>
+              <span class="quantity-display">${quantity}</span>
+              <button class="btn-quantity-plus" data-id="${product.id}">+</button>
+            </div>
+          </div>
         </div>
       `;
       productsGrid.appendChild(card);
@@ -120,39 +133,78 @@
 
   function handleAddToCart(e) {
     const target = e.target;
-    if (!target.classList.contains('btn-add-cart')) return;
-
-    e.preventDefault();
     
-    try {
-      const product = JSON.parse(target.dataset.product || '{}');
+    // Manejar botón "Añadir al Carrito"
+    if (target.classList.contains('btn-add-cart')) {
+      e.preventDefault();
       
-      if (!window.cartStore) {
-        console.error('CartStore no inicializado');
-        alert('Error: Sistema de carrito no disponible');
-        return;
-      }
-      
-      const success = window.cartStore.addItem(product, 1);
-      
-      if (success) {
-        // Feedback visual mejorado
-        target.classList.add('added');
-        const originalHTML = target.innerHTML;
-        target.innerHTML = '✓ Añadido';
-        target.disabled = true;
+      try {
+        const product = JSON.parse(target.dataset.product || '{}');
         
-        setTimeout(() => {
-          target.classList.remove('added');
-          target.innerHTML = originalHTML;
-          target.disabled = false;
-        }, 1000);
-      } else {
-        alert('No se pudo añadir el producto al carrito');
+        if (!window.cartStore) {
+          console.error('CartStore no inicializado');
+          alert('Error: Sistema de carrito no disponible');
+          return;
+        }
+        
+        const success = window.cartStore.addItem(product, 1);
+        
+        if (success) {
+          updateProductControls(product.id);
+        } else {
+          alert('No se pudo añadir el producto al carrito');
+        }
+      } catch (error) {
+        console.error('Error al añadir producto:', error);
+        alert('Error al añadir el producto');
       }
-    } catch (error) {
-      console.error('Error al añadir producto:', error);
-      alert('Error al añadir el producto');
+    }
+    
+    // Manejar botón "-"
+    if (target.classList.contains('btn-quantity-minus')) {
+      const productId = parseInt(target.dataset.id);
+      if (window.cartStore) {
+        const item = window.cartStore.items.find(i => i.id === productId);
+        if (item) {
+          window.cartStore.updateQuantity(productId, item.quantity - 1);
+          updateProductControls(productId);
+        }
+      }
+    }
+    
+    // Manejar botón "+"
+    if (target.classList.contains('btn-quantity-plus')) {
+      const productId = parseInt(target.dataset.id);
+      if (window.cartStore) {
+        const item = window.cartStore.items.find(i => i.id === productId);
+        if (item) {
+          window.cartStore.updateQuantity(productId, item.quantity + 1);
+          updateProductControls(productId);
+        }
+      }
+    }
+  }
+
+  function updateProductControls(productId) {
+    const card = document.querySelector(`[data-product-id="${productId}"]`);
+    if (!card) return;
+    
+    const addButton = card.querySelector('.btn-add-cart');
+    const quantityControls = card.querySelector('.quantity-controls');
+    const quantityDisplay = card.querySelector('.quantity-display');
+    
+    if (!window.cartStore) return;
+    
+    const cartItem = window.cartStore.items.find(item => item.id === productId);
+    const quantity = cartItem ? cartItem.quantity : 0;
+    
+    if (quantity > 0) {
+      if (addButton) addButton.style.display = 'none';
+      if (quantityControls) quantityControls.style.display = 'flex';
+      if (quantityDisplay) quantityDisplay.textContent = quantity;
+    } else {
+      if (addButton) addButton.style.display = 'block';
+      if (quantityControls) quantityControls.style.display = 'none';
     }
   }
 
@@ -310,8 +362,12 @@
     margin-bottom: 1rem;
   }
 
-  :global(.btn-add-cart) {
+  :global(.cart-controls-wrapper) {
     margin-top: auto;
+    width: 100%;
+  }
+
+  :global(.btn-add-cart) {
     display: inline-block;
     background-color: var(--primary-color);
     color: white;
@@ -337,14 +393,55 @@
     transform: translateY(0);
   }
 
-  :global(.btn-add-cart:disabled) {
-    cursor: not-allowed;
-    opacity: 0.7;
+  :global(.quantity-controls) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: var(--secondary-color);
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary-color);
   }
 
-  :global(.btn-add-cart.added) {
-    background: #27ae60;
-    animation: btnPulse 0.3s ease-in-out;
+  :global(.btn-quantity-minus),
+  :global(.btn-quantity-plus) {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  :global(.btn-quantity-minus:hover),
+  :global(.btn-quantity-plus:hover) {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+  }
+
+  :global(.btn-quantity-minus:active),
+  :global(.btn-quantity-plus:active) {
+    transform: scale(0.95);
+  }
+
+  :global(.quantity-display) {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    min-width: 40px;
+    text-align: center;
+    background: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius);
   }
 
   @keyframes btnPulse {
