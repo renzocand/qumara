@@ -58,7 +58,8 @@ if (deliverySheet) {
       district: row.distrito || row.Distrito || row.district || row.District || '',
       price: parseFloat(row.precio || row.Precio || row.price || row.Price || 0),
       time: row.tiempo || row.Tiempo || row.time || row.Time || '',
-      minOrder: parseFloat(row.pedidoMinimo || row.PedidoMinimo || row.minOrder || row.MinOrder || 0)
+      minOrder: parseFloat(row.pedidoMinimo || row.PedidoMinimo || row.minOrder || row.MinOrder || 0),
+      freeShipping: parseFloat(row.envioGratis || row.EnvioGratis || row.freeShipping || row.FreeShipping || 0)
     };
   });
   

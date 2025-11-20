@@ -119,6 +119,7 @@ import CartStore from '../components/CartStore.astro';
             option.dataset.minOrder = zone.minOrder;
             option.dataset.time = zone.time;
             option.dataset.district = zone.district;
+            option.dataset.freeShipping = zone.freeShipping || 0;
             deliveryZoneSelect.appendChild(option);
           });
         }
@@ -154,12 +155,31 @@ import CartStore from '../components/CartStore.astro';
 
     let deliveryCost = 0;
     let minOrder = 0;
+    let freeShippingAmount = 0;
+    let isFreeShipping = false;
 
     if (selectedZone) {
       deliveryCost = parseFloat(selectedZone.price) || 0;
       minOrder = parseFloat(selectedZone.minOrder) || 0;
+      freeShippingAmount = parseFloat(selectedZone.freeShipping) || 0;
 
-      if (costDeliveryEl) costDeliveryEl.textContent = `S/. ${deliveryCost.toFixed(2)}`;
+      // Verificar si califica para envío gratis
+      if (freeShippingAmount > 0 && subtotal >= freeShippingAmount) {
+        isFreeShipping = true;
+        deliveryCost = 0;
+      }
+
+      if (costDeliveryEl) {
+        if (isFreeShipping) {
+          costDeliveryEl.innerHTML = `<span style="text-decoration: line-through; color: #999;">S/. ${selectedZone.price.toFixed(2)}</span> <span style="color: #27ae60; font-weight: 700;">¡GRATIS!</span>`;
+        } else if (freeShippingAmount > 0 && subtotal < freeShippingAmount) {
+          const remaining = freeShippingAmount - subtotal;
+          costDeliveryEl.innerHTML = `S/. ${deliveryCost.toFixed(2)} <small style="color: #f39c12;">(Faltan S/. ${remaining.toFixed(2)} para envío gratis)</small>`;
+        } else {
+          costDeliveryEl.textContent = `S/. ${deliveryCost.toFixed(2)}`;
+        }
+      }
+      
       if (minOrderInfoEl) {
         if (subtotal < minOrder) {
           minOrderInfoEl.textContent = `S/. ${minOrder.toFixed(2)} (⚠️ No alcanza)`;
@@ -189,7 +209,8 @@ import CartStore from '../components/CartStore.astro';
           district: selectedOption.dataset.district,
           price: parseFloat(selectedOption.dataset.price),
           minOrder: parseFloat(selectedOption.dataset.minOrder),
-          time: selectedOption.dataset.time
+          time: selectedOption.dataset.time,
+          freeShipping: parseFloat(selectedOption.dataset.freeShipping) || 0
         };
       } else {
         selectedZone = null;
@@ -238,9 +259,18 @@ import CartStore from '../components/CartStore.astro';
       message += `   S/. ${item.price.toFixed(2)} c/u = S/. ${(item.price * item.quantity).toFixed(2)}\n`;
     });
 
+    // Calcular delivery final (con envío gratis si aplica)
+    const freeShippingAmount = parseFloat(selectedZone.freeShipping) || 0;
+    const finalDeliveryCost = (freeShippingAmount > 0 && subtotal >= freeShippingAmount) ? 0 : selectedZone.price;
+    const isFreeShipping = freeShippingAmount > 0 && subtotal >= freeShippingAmount;
+
     message += `\n*Subtotal:* S/. ${subtotal.toFixed(2)}\n`;
-    message += `*Delivery:* S/. ${selectedZone.price.toFixed(2)}\n`;
-    message += `*TOTAL:* S/. ${(subtotal + selectedZone.price).toFixed(2)}\n`;
+    if (isFreeShipping) {
+      message += `*Delivery:* ~~S/. ${selectedZone.price.toFixed(2)}~~ ¡GRATIS!\n`;
+    } else {
+      message += `*Delivery:* S/. ${finalDeliveryCost.toFixed(2)}\n`;
+    }
+    message += `*TOTAL:* S/. ${(subtotal + finalDeliveryCost).toFixed(2)}\n`;
 
     if (notes) {
       message += `\n*Notas:* ${notes}\n`;

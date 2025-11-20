@@ -1,34 +1,34 @@
 [
   {
     "id": 1,
-    "zone": "",
     "district": "Trujillo",
     "price": 7,
     "time": "30-45 min",
-    "minOrder": 0
+    "minOrder": 25,
+    "freeShipping": 70
   },
   {
     "id": 2,
-    "zone": "",
-    "district": "La Esperanza",
-    "price": 10,
-    "time": "40-50 min",
-    "minOrder": 0
-  },
-  {
-    "id": 3,
-    "zone": "",
     "district": "Victor Larco",
     "price": 10,
     "time": "35-45 min",
-    "minOrder": 0
+    "minOrder": 35,
+    "freeShipping": 90
+  },
+  {
+    "id": 3,
+    "district": "La Esperanza",
+    "price": 10,
+    "time": "40-50 min",
+    "minOrder": 35,
+    "freeShipping": 90
   },
   {
     "id": 4,
-    "zone": "",
     "district": "El Porvenir",
-    "price": 10,
+    "price": 14,
     "time": "50-60 min",
-    "minOrder": 0
+    "minOrder": 40,
+    "freeShipping": 100
   }
 ]

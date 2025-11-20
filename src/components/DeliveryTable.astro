@@ -9,11 +9,12 @@
         <th scope="col">Precio de Envío</th>
         <th scope="col">Tiempo Estimado</th>
         <th scope="col">Pedido Mínimo</th>
+        <th scope="col" class="free-shipping-header">🎁 Envío Gratis</th>
       </tr>
     </thead>
     <tbody id="delivery-tbody">
       <tr>
-        <td colspan="4" style="text-align: center;">Cargando zonas de delivery...</td>
+        <td colspan="5" style="text-align: center;">Cargando zonas de delivery...</td>
       </tr>
     </tbody>
   </table>
@@ -28,22 +29,34 @@
       .then(response => response.json())
       .then(deliveries => {
         if (deliveries.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay zonas de delivery disponibles</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay zonas de delivery disponibles</td></tr>';
           return;
         }
 
-        tbody.innerHTML = deliveries.map(delivery => `
-          <tr>
-            <td><strong>${delivery.district}</strong></td>
-            <td class="price">S/. ${delivery.price.toFixed(2)}</td>
-            <td>${delivery.time}</td>
-            <td>S/. ${delivery.minOrder.toFixed(2)}</td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = deliveries.map(delivery => {
+          const freeShipping = delivery.freeShipping || 0;
+          let freeShippingCell = '';
+          
+          if (freeShipping > 0) {
+            freeShippingCell = `<td class="free-shipping"><span class="badge-free">¡SÍ!</span> Compras sobre S/. ${freeShipping.toFixed(2)}</td>`;
+          } else {
+            freeShippingCell = '<td class="no-free-shipping">No disponible</td>';
+          }
+          
+          return `
+            <tr>
+              <td><strong>${delivery.district}</strong></td>
+              <td class="price">S/. ${delivery.price.toFixed(2)}</td>
+              <td>${delivery.time}</td>
+              <td>S/. ${delivery.minOrder.toFixed(2)}</td>
+              ${freeShippingCell}
+            </tr>
+          `;
+        }).join('');
       })
       .catch(error => {
         console.error('Error cargando deliveries:', error);
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Error al cargar zonas de delivery</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Error al cargar zonas de delivery</td></tr>';
       });
   })();
 </script>
@@ -97,14 +110,54 @@
     font-size: 1.1rem;
   }
 
+  .free-shipping-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+    font-size: 1.1rem !important;
+  }
+
+  :global(.free-shipping) {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    font-weight: 600;
+    color: #2e7d32;
+  }
+
+  :global(.badge-free) {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 0.3rem;
+    animation: pulse-badge 2s infinite;
+  }
+
+  @keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  :global(.no-free-shipping) {
+    color: #999;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
   @media (max-width: 768px) {
     .delivery-table {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      min-width: 700px;
     }
 
     .delivery-table th,
     .delivery-table td {
-      padding: 0.75rem 0.5rem;
+      padding: 0.75rem 0.4rem;
+    }
+
+    :global(.badge-free) {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.4rem;
     }
   }
 </style>
