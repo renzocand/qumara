@@ -1,0 +1,289 @@
+---
+---
+<div>
+  <div class="filters-container">
+    <div id="category-filters"></div>
+    <div id="subcategory-filters" class="sub-filters"></div>
+  </div>
+
+  <div id="products-grid" class="menu-grid"></div>
+</div>
+
+<script>
+(() => {
+  // Fetch the prototype JSON and initialize the menu UI
+  const dataUrl = '/data/menu_prototipo.json';
+
+  /** @type {any[]} */
+  let menuData = [];
+  let currentCategory = 'Todos';
+  let currentSubcategory = 'Todos';
+
+  const categoryContainer = document.getElementById('category-filters');
+  const subCategoryContainer = document.getElementById('subcategory-filters');
+  const productsGrid = document.getElementById('products-grid');
+
+  function getUniqueCategories() {
+    const cats = menuData.map(item => item.category);
+    return ['Todos', ...new Set(cats)];
+  }
+
+  function getSubcategories(category) {
+    if (category === 'Todos') return [];
+    const filtered = menuData.filter(item => item.category === category);
+    const subs = filtered.map(item => item.subcategory);
+    return ['Todos', ...new Set(subs)];
+  }
+
+  function renderCategoryButtons() {
+    const categories = getUniqueCategories();
+    if (!categoryContainer) return;
+    categoryContainer.innerHTML = '';
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.textContent = cat;
+      btn.className = `category-btn ${cat === currentCategory ? 'active' : ''}`;
+      btn.onclick = () => selectCategory(cat);
+      categoryContainer.appendChild(btn);
+    });
+  }
+
+  function renderSubcategoryButtons() {
+    const subcategories = getSubcategories(currentCategory);
+    if (!subCategoryContainer) return;
+    subCategoryContainer.innerHTML = '';
+    if (subcategories.length > 0) {
+      subCategoryContainer.style.display = 'block';
+      subcategories.forEach(sub => {
+        const btn = document.createElement('button');
+        btn.textContent = sub;
+        btn.className = `subcategory-btn ${sub === currentSubcategory ? 'active' : ''}`;
+        btn.onclick = () => selectSubcategory(sub);
+        subCategoryContainer.appendChild(btn);
+      });
+    } else {
+      subCategoryContainer.style.display = 'none';
+    }
+  }
+
+  function selectCategory(cat) {
+    currentCategory = cat;
+    currentSubcategory = 'Todos';
+    document.querySelectorAll('.category-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent === cat);
+    });
+    renderSubcategoryButtons();
+    renderProducts();
+  }
+
+  function selectSubcategory(sub) {
+    currentSubcategory = sub;
+    document.querySelectorAll('.subcategory-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent === sub);
+    });
+    renderProducts();
+  }
+
+  function renderProducts() {
+    if (!productsGrid) return;
+    productsGrid.innerHTML = '';
+    const filteredData = menuData.filter(item => {
+      const catMatch = currentCategory === 'Todos' || item.category === currentCategory;
+      const subMatch = currentSubcategory === 'Todos' || item.subcategory === currentSubcategory;
+      return catMatch && subMatch;
+    });
+
+    if (filteredData.length === 0) {
+      productsGrid.innerHTML = '<p>No se encontraron productos.</p>';
+      return;
+    }
+
+    filteredData.forEach(product => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      const wsMsg = `Hola Señora Qumara, quisiera pedir: ${product.name}`;
+      const wsLink = `https://wa.me/51999999999?text=${encodeURIComponent(wsMsg)}`;
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy">
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <p style="font-size:0.9rem; color:#777; margin-bottom:0.5rem;">${product.category} > ${product.subcategory}</p>
+          <p class="product-price">S/. ${Number(product.price).toFixed(2)}</p>
+          <a href="${wsLink}" target="_blank" class="btn-whatsapp" aria-label="Pedir ${product.name} por WhatsApp">Hacer pedido por WhatsApp</a>
+        </div>
+      `;
+      productsGrid.appendChild(card);
+    });
+  }
+
+  // Initialize after fetching data
+  fetch(dataUrl)
+    .then(r => r.json())
+    .then(json => {
+      menuData = json;
+      // ensure containers exist before rendering
+      if (!categoryContainer || !subCategoryContainer || !productsGrid) return;
+      renderCategoryButtons();
+      renderProducts();
+    })
+    .catch(err => {
+      console.error('Error cargando menu_prototipo.json', err);
+      productsGrid.innerHTML = '<p>Error cargando productos.</p>';
+    });
+})();
+</script>
+
+<style>
+  .filters-container {
+    margin-bottom: 2rem;
+  }
+
+  :global(.category-btn) {
+    background: var(--white);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.45rem 1rem;
+    margin: 0.25rem 0.35rem;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+  }
+
+  :global(.category-btn.active) {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-dark);
+  }
+
+  :global(.category-btn:hover) {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--white);
+  }
+
+  :global(.subcategory-btn) {
+    background: var(--secondary-color);
+    border: 1px solid var(--primary-dark);
+    color: var(--primary-dark);
+    padding: 0.3rem 0.8rem;
+    margin: 0.2rem 0.3rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+
+  :global(.subcategory-btn.active) {
+    background: var(--primary-color);
+    border-color: var(--primary-dark);
+    color: var(--white);
+  }
+
+  :global(.subcategory-btn:hover) {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--white);
+  }
+
+  :global(#subcategory-filters) {
+    margin-top: 0.8rem !important;
+  }
+
+  .sub-filters {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  :global(.product-card) {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  :global(.product-card:hover) {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.product-img) {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #eee;
+  }
+
+  :global(.product-info) {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.product-name) {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.product-price) {
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  :global(.btn-whatsapp) {
+    margin-top: auto;
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-weight: 700;
+    transition: var(--transition);
+  }
+
+  :global(.btn-whatsapp:hover) {
+    background-color: #128C7E;
+  }
+</style>

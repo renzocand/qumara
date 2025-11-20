@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "update-menu": "node scripts/excel-to-json.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
-    "astro": "^5.8.1"
+    "astro": "^5.8.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "tailwindcss": "^4.1.8"

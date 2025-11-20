@@ -1,52 +1,22 @@
 ---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-import logo from "../assets/logo_qumara.svg";
-
 ---
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qumara</title>
-  <link rel="icon" type="image/svg" href="/favicon.svg">
-
-  <!-- Título al compartir -->
-<meta property="og:title" content="Qumara, natural y sabroso">
-<!-- Descripción -->
-<meta property="og:description" content="Desayunos saludables y hamburguesas caseras. Delivery gratis.">
-<!-- Imagen mostrada -->
-<meta property="og:image" content="https://www.sraqumara.com/LOGO_OFICIAL.png">
-<!-- URL real -->
-<meta property="og:url" content="https://www.sraqumara.com">
-<!-- Tipo -->
-<meta property="og:type" content="website">
-
-</head>
-<body class="font-sans bg-white text-gray-800">
-
-  <!-- Header -->
-  <header class="bg-yellow-qumara text-white px-6 py-4 flex justify-between items-center">
-      
-    <img src={logo.src} class="h-16 w-auto" />
-
-
-	<a href="#productos" class="bg-gray-900 hover:bg-black text-sm px-4 py-2 rounded">VER PRODUCTOS</a>
-  </header>
-
-  <slot />
-
-
-  <!-- Footer -->
-  <footer class="bg-black text-white text-center py-6">
-    <h1 class="font-bold text-lg mb-2">QUMARA</h1>
-    <p class="text-sm">© <span id="current-year"></span> Qumara. Todos los derechos reservados. | Trujillo, Perú</p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Señora Qumara</title>
+    <meta name="description" content="Restaurante Señora Qumara - sabores caseros" />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>
-
-
-
-<script is:inline>
-  document.getElementById('current-year').textContent = new Date().getFullYear();
-</script>

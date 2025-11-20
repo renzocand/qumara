@@ -1,0 +1,234 @@
+[
+  {
+    "id": 1,
+    "name": "Jugo Verde",
+    "price": 8,
+    "category": "Desayunos",
+    "subcategory": "Jugos Naturales",
+    "img": "/img/jugo_verde.webp"
+  },
+  {
+    "id": 2,
+    "name": "Jugo de Papaya",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Jugos Naturales",
+    "img": "/img/jugo_papaya.webp"
+  },
+  {
+    "id": 3,
+    "name": "Jugo de Piña",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Jugos Naturales",
+    "img": "/img/piña.webp"
+  },
+  {
+    "id": 4,
+    "name": "Jugo Mixto",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Jugos Naturales",
+    "img": "/img/jugo_mixto.webp"
+  },
+  {
+    "id": 5,
+    "name": "Jugo de Manzana",
+    "price": 6.5,
+    "category": "Desayunos",
+    "subcategory": "Jugos Naturales",
+    "img": "/img/jugo_manzana.webp"
+  },
+  {
+    "id": 6,
+    "name": "La Clásica",
+    "price": 8.5,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/CLASICA.webp"
+  },
+  {
+    "id": 7,
+    "name": "La Royal Qumara",
+    "price": 8.5,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/royal.webp"
+  },
+  {
+    "id": 8,
+    "name": "Hawaiana",
+    "price": 9,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 9,
+    "name": "Americana",
+    "price": 10,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 10,
+    "name": "Parrillera",
+    "price": 12,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 11,
+    "name": "La Aguja",
+    "price": 12,
+    "category": "Hamburguesas",
+    "subcategory": "Carne",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 12,
+    "name": "La Rompe Dietas",
+    "price": 15,
+    "category": "Hamburguesas",
+    "subcategory": "Especiales",
+    "img": "/img/rompe_dietas.webp"
+  },
+  {
+    "id": 13,
+    "name": "Big Qumara",
+    "price": 17,
+    "category": "Hamburguesas",
+    "subcategory": "Especiales",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 14,
+    "name": "Filete de Pollo con Queso",
+    "price": 8,
+    "category": "Hamburguesas",
+    "subcategory": "Pollo",
+    "img": "/img/filete_pollo_con_queso.webp"
+  },
+  {
+    "id": 15,
+    "name": "Pollo a la Plancha",
+    "price": 10,
+    "category": "Hamburguesas",
+    "subcategory": "Pollo",
+    "img": "/img/pollo_plancha.webp"
+  },
+  {
+    "id": 16,
+    "name": "Chorihuevo",
+    "price": 8,
+    "category": "Hamburguesas",
+    "subcategory": "Chorizo",
+    "img": "/img/chorihuevo.webp"
+  },
+  {
+    "id": 17,
+    "name": "Chorichesse",
+    "price": 8,
+    "category": "Hamburguesas",
+    "subcategory": "Chorizo",
+    "img": "/img/choricheese.webp"
+  },
+  {
+    "id": 18,
+    "name": "Choripan",
+    "price": 7,
+    "category": "Hamburguesas",
+    "subcategory": "Chorizo",
+    "img": "/img/choripan.webp"
+  },
+  {
+    "id": 19,
+    "name": "Huevo Revuelto",
+    "price": 3.5,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/huevo_revuelto.webp"
+  },
+  {
+    "id": 20,
+    "name": "Pollo Deshilachado",
+    "price": 3.5,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 21,
+    "name": "Pan con Palta",
+    "price": 3,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 22,
+    "name": "Pan con Aceituna",
+    "price": 2.5,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 23,
+    "name": "Pan fit de Pollo",
+    "price": 10,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/pan_de_pollo.webp"
+  },
+  {
+    "id": 24,
+    "name": "Sandwich Ligth",
+    "price": 10,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/ligth.webp"
+  },
+  {
+    "id": 25,
+    "name": "Omelette",
+    "price": 8,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 26,
+    "name": "Pollo con Champiñones",
+    "price": 8,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  },
+  {
+    "id": 27,
+    "name": "Pollo Gratinado",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/pollo_gratinado.webp"
+  },
+  {
+    "id": 28,
+    "name": "Pollo con Durazno",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/pollo_durazno.webp"
+  },
+  {
+    "id": 29,
+    "name": "Pan Napolitano",
+    "price": 7,
+    "category": "Desayunos",
+    "subcategory": "Sandwiches",
+    "img": "/img/proceso.webp"
+  }
+]
