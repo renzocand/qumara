@@ -9,7 +9,7 @@
   <div id="products-grid" class="menu-grid"></div>
 </div>
 
-<script>
+<script is:inline>
 (() => {
   // Fetch the prototype JSON and initialize the menu UI
   const dataUrl = '/data/menu_prototipo.json';
@@ -101,19 +101,59 @@
     filteredData.forEach(product => {
       const card = document.createElement('article');
       card.className = 'product-card';
-      const wsMsg = `Hola Señora Qumara, quisiera pedir: ${product.name}`;
-      const wsLink = `https://wa.me/51999999999?text=${encodeURIComponent(wsMsg)}`;
       card.innerHTML = `
         <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy">
         <div class="product-info">
           <h3 class="product-name">${product.name}</h3>
           <p style="font-size:0.9rem; color:#777; margin-bottom:0.5rem;">${product.category} > ${product.subcategory}</p>
           <p class="product-price">S/. ${Number(product.price).toFixed(2)}</p>
-          <a href="${wsLink}" target="_blank" class="btn-whatsapp" aria-label="Pedir ${product.name} por WhatsApp">Hacer pedido por WhatsApp</a>
+          <button class="btn-add-cart" data-product='${JSON.stringify(product)}' aria-label="Añadir ${product.name} al carrito">🛒 Añadir al Carrito</button>
         </div>
       `;
       productsGrid.appendChild(card);
     });
+
+    // Event listeners para botones de añadir (usando event delegation para mejor performance)
+    productsGrid.removeEventListener('click', handleAddToCart);
+    productsGrid.addEventListener('click', handleAddToCart);
+  }
+
+  function handleAddToCart(e) {
+    const target = e.target;
+    if (!target.classList.contains('btn-add-cart')) return;
+
+    e.preventDefault();
+    
+    try {
+      const product = JSON.parse(target.dataset.product || '{}');
+      
+      if (!window.cartStore) {
+        console.error('CartStore no inicializado');
+        alert('Error: Sistema de carrito no disponible');
+        return;
+      }
+      
+      const success = window.cartStore.addItem(product, 1);
+      
+      if (success) {
+        // Feedback visual mejorado
+        target.classList.add('added');
+        const originalHTML = target.innerHTML;
+        target.innerHTML = '✓ Añadido';
+        target.disabled = true;
+        
+        setTimeout(() => {
+          target.classList.remove('added');
+          target.innerHTML = originalHTML;
+          target.disabled = false;
+        }, 1000);
+      } else {
+        alert('No se pudo añadir el producto al carrito');
+      }
+    } catch (error) {
+      console.error('Error al añadir producto:', error);
+      alert('Error al añadir el producto');
+    }
   }
 
   // Initialize after fetching data
@@ -270,20 +310,45 @@
     margin-bottom: 1rem;
   }
 
-  :global(.btn-whatsapp) {
+  :global(.btn-add-cart) {
     margin-top: auto;
     display: inline-block;
-    background-color: #25D366;
+    background-color: var(--primary-color);
     color: white;
-    text-decoration: none;
+    border: none;
     padding: 0.8rem;
     border-radius: var(--radius);
     text-align: center;
     font-weight: 700;
+    cursor: pointer;
     transition: var(--transition);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
   }
 
-  :global(.btn-whatsapp:hover) {
-    background-color: #128C7E;
+  :global(.btn-add-cart:hover) {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  :global(.btn-add-cart:active) {
+    transform: translateY(0);
+  }
+
+  :global(.btn-add-cart:disabled) {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  :global(.btn-add-cart.added) {
+    background: #27ae60;
+    animation: btnPulse 0.3s ease-in-out;
+  }
+
+  @keyframes btnPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
   }
 </style>

@@ -1,0 +1,131 @@
+---
+// Store para el carrito usando localStorage
+---
+<script is:inline>
+  // Cart store con localStorage persistence
+  // Siguiendo patrones de e-commerce de Astro docs
+  class CartStore {
+    constructor() {
+      this.items = [];
+      this.storageKey = 'qumara-cart';
+      this.loadFromStorage();
+    }
+
+    loadFromStorage() {
+      if (typeof window !== 'undefined') {
+        try {
+          const saved = localStorage.getItem(this.storageKey);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            // Validar estructura de datos
+            if (Array.isArray(parsed)) {
+              this.items = parsed.filter(item => 
+                item && typeof item === 'object' && 
+                item.id && item.name && typeof item.price === 'number'
+              );
+            }
+          }
+        } catch (e) {
+          console.error('Error loading cart from storage:', e);
+          this.items = [];
+        }
+      }
+    }
+
+    save() {
+      if (typeof window !== 'undefined') {
+        try {
+          const data = JSON.stringify(this.items);
+          // Verificar límite de localStorage (aprox 5MB)
+          if (data.length > 5000000) {
+            console.error('Cart too large for localStorage');
+            return false;
+          }
+          localStorage.setItem(this.storageKey, data);
+          this.notifyListeners();
+          return true;
+        } catch (e) {
+          console.error('Error saving cart:', e);
+          return false;
+        }
+      }
+      return false;
+    }
+
+    addItem(product, quantity = 1) {
+      // Validar producto
+      if (!product || !product.id || !product.name || typeof product.price !== 'number') {
+        console.error('Invalid product data:', product);
+        return false;
+      }
+
+      if (quantity <= 0) {
+        console.error('Invalid quantity:', quantity);
+        return false;
+      }
+
+      const existingIndex = this.items.findIndex(item => item.id === product.id);
+      
+      if (existingIndex >= 0) {
+        this.items[existingIndex].quantity += quantity;
+      } else {
+        this.items.push({
+          id: product.id,
+          name: product.name,
+          price: parseFloat(product.price),
+          category: product.category || 'Sin categoría',
+          img: product.img || '',
+          quantity: quantity
+        });
+      }
+      
+      this.save();
+      return true;
+    }
+
+    removeItem(productId) {
+      this.items = this.items.filter(item => item.id !== productId);
+      this.save();
+    }
+
+    updateQuantity(productId, quantity) {
+      const item = this.items.find(item => item.id === productId);
+      if (item) {
+        if (quantity <= 0) {
+          this.removeItem(productId);
+        } else {
+          item.quantity = quantity;
+          this.save();
+        }
+      }
+    }
+
+    clear() {
+      this.items = [];
+      this.save();
+    }
+
+    getTotal() {
+      return this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    getItemCount() {
+      return this.items.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    notifyListeners() {
+      window.dispatchEvent(new CustomEvent('cart-updated', { 
+        detail: { 
+          items: this.items,
+          total: this.getTotal(),
+          count: this.getItemCount()
+        }
+      }));
+    }
+  }
+
+  // Instancia global
+  if (typeof window !== 'undefined') {
+    window.cartStore = window.cartStore || new CartStore();
+  }
+</script>

@@ -1,0 +1,100 @@
+---
+// Componente reutilizable para botón de añadir al carrito
+// Siguiendo patrones de e-commerce de Astro docs
+interface Props {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    category?: string;
+    img?: string;
+  };
+  class?: string;
+  text?: string;
+}
+
+const { product, class: className = '', text = 'Añadir al Carrito' } = Astro.props;
+---
+
+<button 
+  class={`add-to-cart-btn ${className}`}
+  data-product={JSON.stringify(product)}
+  type="button"
+>
+  {text}
+</button>
+
+<style>
+  .add-to-cart-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+  }
+
+  .add-to-cart-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+  }
+
+  .add-to-cart-btn:active {
+    transform: translateY(0);
+  }
+
+  .add-to-cart-btn.added {
+    background: #27ae60;
+    animation: pulse 0.3s ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+</style>
+
+<script>
+  // Manejador global para todos los botones de añadir al carrito
+  // Usando event delegation para mejor performance
+  document.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement;
+    
+    if (target.classList.contains('add-to-cart-btn')) {
+      e.preventDefault();
+      
+      const productData = target.getAttribute('data-product');
+      if (!productData) return;
+      
+      try {
+        const product = JSON.parse(productData);
+        
+        // Verificar que cartStore exista
+        if (!window.cartStore) {
+          console.error('CartStore not initialized');
+          return;
+        }
+        
+        // Añadir producto al carrito
+        const success = window.cartStore.addItem(product, 1);
+        
+        if (success) {
+          // Feedback visual
+          target.classList.add('added');
+          const originalText = target.textContent;
+          target.textContent = '✓ Añadido';
+          
+          setTimeout(() => {
+            target.classList.remove('added');
+            target.textContent = originalText;
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
+    }
+  });
+</script>
