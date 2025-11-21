@@ -1,0 +1,263 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MenuIsland from '../../components/MenuIsland.astro';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  price: number;
+  category: string;
+  subcategory: string;
+  img: string;
+  description?: string;
+}
+
+export async function getStaticPaths() {
+  const filePath = join(process.cwd(), 'public', 'data', 'menu_prototipo.json');
+  const fileContent = readFileSync(filePath, 'utf-8');
+  const products: Product[] = JSON.parse(fileContent);
+  
+  // Obtener todas las categorías únicas
+  const categories = [...new Set(products.map(p => p.category))];
+  
+  return categories.map((category) => {
+    const slug = category
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    
+    const categoryProducts = products.filter(p => p.category === category);
+    
+    // Obtener subcategorías únicas de esta categoría
+    const subcategories = [...new Set(categoryProducts.map(p => p.subcategory))];
+    
+    return {
+      params: { category: slug },
+      props: { 
+        category,
+        categorySlug: slug,
+        products: categoryProducts,
+        subcategories
+      }
+    };
+  });
+}
+
+interface Props {
+  category: string;
+  categorySlug: string;
+  products: Product[];
+  subcategories: string[];
+}
+
+const { category, categorySlug, products, subcategories } = Astro.props;
+
+const pageTitle = `${category} - Menú - Señora Qumara`;
+const pageDescription = `Descubre nuestros ${category.toLowerCase()}. ${products.length} productos disponibles con delivery a domicilio en Trujillo.`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <div class="menu-page">
+    <div class="menu-header">
+      <h1>{category}</h1>
+      <p class="menu-subtitle">{products.length} productos disponibles</p>
+      <a href="/menu" class="btn-back-menu">← Ver todo el menú</a>
+    </div>
+
+    <!-- Filtros de subcategoría -->
+    {subcategories.length > 1 && (
+      <div class="subcategory-filters">
+        <h3>Filtrar por:</h3>
+        <div class="filter-tags">
+          <button class="filter-tag active" data-subcategory="Todos">
+            Todos
+          </button>
+          {subcategories.map((sub) => (
+            <button class="filter-tag" data-subcategory={sub}>
+              {sub}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+    
+    <MenuIsland initialCategory={category} hideCategoryFilter={true} />
+  </div>
+</Layout>
+
+<script is:inline>
+  // Manejo de filtros de subcategoría
+  let currentSubcategory = 'Todos';
+  
+  function filterProducts() {
+    const productCards = document.querySelectorAll('.product-card');
+    
+    productCards.forEach(card => {
+      const cardSubcategory = card.getAttribute('data-subcategory');
+      const htmlCard = card;
+      
+      if (currentSubcategory === 'Todos') {
+        htmlCard.style.display = 'flex';
+      } else {
+        htmlCard.style.display = cardSubcategory === currentSubcategory ? 'flex' : 'none';
+      }
+    });
+    
+    // Actualizar contador
+    const visibleCount = document.querySelectorAll('.product-card[style*="flex"]').length;
+    const subtitle = document.querySelector('.menu-subtitle');
+    if (subtitle) {
+      if (currentSubcategory === 'Todos') {
+        subtitle.textContent = `${document.querySelectorAll('.product-card').length} productos disponibles`;
+      } else {
+        subtitle.textContent = `${visibleCount} productos en ${currentSubcategory}`;
+      }
+    }
+  }
+  
+  // Event listeners para los tags
+  function initializeFilters() {
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        const subcategory = tag.getAttribute('data-subcategory');
+        
+        // Actualizar estado activo
+        document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        
+        // Filtrar productos
+        currentSubcategory = subcategory || 'Todos';
+        filterProducts();
+      });
+    });
+  }
+  
+  // Inicializar cuando los productos estén cargados
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(initializeFilters, 500);
+    });
+  } else {
+    setTimeout(initializeFilters, 500);
+  }
+</script>
+
+<style>
+  .menu-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 5%;
+  }
+
+  .menu-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 3px solid var(--secondary-color);
+  }
+
+  .menu-header h1 {
+    font-size: 3rem;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .menu-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-back-menu {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: var(--white);
+    color: var(--primary-color);
+    text-decoration: none;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .btn-back-menu:hover {
+    background: var(--primary-color);
+    color: var(--white);
+  }
+
+  /* Filtros de subcategoría */
+  .subcategory-filters {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .subcategory-filters h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .filter-tag {
+    padding: 0.6rem 1.2rem;
+    background: var(--secondary-color);
+    color: var(--primary-dark);
+    border: 2px solid transparent;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .filter-tag:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+  }
+
+  .filter-tag.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-dark);
+  }
+
+  @media (max-width: 768px) {
+    .menu-header h1 {
+      font-size: 2rem;
+    }
+
+    .menu-subtitle {
+      font-size: 1rem;
+    }
+
+    .subcategory-filters {
+      padding: 1.5rem;
+    }
+
+    .filter-tags {
+      gap: 0.5rem;
+    }
+
+    .filter-tag {
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+</style>

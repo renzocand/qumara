@@ -1,8 +1,15 @@
 ---
+interface Props {
+  initialCategory?: string;
+  initialSubcategory?: string;
+  hideCategoryFilter?: boolean;
+}
+
+const { initialCategory = 'Todos', initialSubcategory = 'Todos', hideCategoryFilter = false } = Astro.props;
 ---
 <div>
   <div class="filters-container">
-    <div id="category-filters"></div>
+    {!hideCategoryFilter && <div id="category-filters"></div>}
     <div id="subcategory-filters" class="sub-filters"></div>
   </div>
 
@@ -16,7 +23,7 @@
   </div>
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ initialCategory, initialSubcategory, hideCategoryFilter }}>
 (() => {
   // Helper para mostrar alertas
   function showAlert(options) {
@@ -34,8 +41,8 @@
 
   /** @type {any[]} */
   let menuData = [];
-  let currentCategory = 'Todos';
-  let currentSubcategory = 'Todos';
+  let currentCategory = initialCategory || 'Todos';
+  let currentSubcategory = initialSubcategory || 'Todos';
   
   // Paginación
   const ITEMS_PER_PAGE = 12;
@@ -63,16 +70,35 @@
     return ['Todos', ...new Set(subs)];
   }
 
+  function slugify(text) {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
   function renderCategoryButtons() {
+    if (!categoryContainer) return; // Skip si está oculto
     const categories = getUniqueCategories();
-    if (!categoryContainer) return;
     categoryContainer.innerHTML = '';
     categories.forEach(cat => {
-      const btn = document.createElement('button');
-      btn.textContent = cat;
-      btn.className = `category-btn ${cat === currentCategory ? 'active' : ''}`;
-      btn.onclick = () => selectCategory(cat);
-      categoryContainer.appendChild(btn);
+      const isActive = cat === currentCategory;
+      
+      if (cat === 'Todos') {
+        const btn = document.createElement('button');
+        btn.textContent = cat;
+        btn.className = `category-btn ${isActive ? 'active' : ''}`;
+        btn.onclick = () => selectCategory(cat);
+        categoryContainer.appendChild(btn);
+      } else {
+        const link = document.createElement('a');
+        link.href = `/menu/${slugify(cat)}`;
+        link.textContent = cat;
+        link.className = `category-btn ${isActive ? 'active' : ''}`;
+        categoryContainer.appendChild(link);
+      }
     });
   }
 
@@ -83,11 +109,21 @@
     if (subcategories.length > 0) {
       subCategoryContainer.style.display = 'block';
       subcategories.forEach(sub => {
-        const btn = document.createElement('button');
-        btn.textContent = sub;
-        btn.className = `subcategory-btn ${sub === currentSubcategory ? 'active' : ''}`;
-        btn.onclick = () => selectSubcategory(sub);
-        subCategoryContainer.appendChild(btn);
+        const isActive = sub === currentSubcategory;
+        
+        if (sub === 'Todos') {
+          const btn = document.createElement('button');
+          btn.textContent = sub;
+          btn.className = `subcategory-btn ${isActive ? 'active' : ''}`;
+          btn.onclick = () => selectSubcategory(sub);
+          subCategoryContainer.appendChild(btn);
+        } else {
+          const link = document.createElement('a');
+          link.href = `/menu/${slugify(currentCategory)}/${slugify(sub)}`;
+          link.textContent = sub;
+          link.className = `subcategory-btn ${isActive ? 'active' : ''}`;
+          subCategoryContainer.appendChild(link);
+        }
       });
     } else {
       subCategoryContainer.style.display = 'none';
@@ -142,6 +178,8 @@
       const card = document.createElement('article');
       card.className = 'product-card';
       card.dataset.productId = product.id;
+      card.dataset.category = product.category;
+      card.dataset.subcategory = product.subcategory;
       
       // Verificar si el producto ya está en el carrito
       const cartItem = window.cartStore?.items.find(item => item.id === product.id);
@@ -339,9 +377,11 @@
     .then(r => r.json())
     .then(json => {
       menuData = json;
-      // ensure containers exist before rendering
-      if (!categoryContainer || !subCategoryContainer || !productsGrid) return;
-      renderCategoryButtons();
+      // ensure required containers exist
+      if (!productsGrid) return;
+      if (categoryContainer) {
+        renderCategoryButtons();
+      }
       renderProducts();
     })
     .catch(err => {
@@ -357,6 +397,7 @@
   }
 
   :global(.category-btn) {
+    display: inline-block;
     background: var(--white);
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
@@ -367,6 +408,7 @@
     font-weight: 600;
     font-size: 0.95rem;
     transition: var(--transition);
+    text-decoration: none;
   }
 
   :global(.category-btn.active) {
@@ -382,6 +424,7 @@
   }
 
   :global(.subcategory-btn) {
+    display: inline-block;
     background: var(--secondary-color);
     border: 1px solid var(--primary-dark);
     color: var(--primary-dark);
@@ -392,6 +435,7 @@
     font-size: 0.85rem;
     font-weight: 500;
     transition: var(--transition);
+    text-decoration: none;
   }
 
   :global(.subcategory-btn.active) {

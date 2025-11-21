@@ -40,6 +40,23 @@ import CartStore from '../components/CartStore.astro';
         </div>
 
         <div class="form-group">
+          <label for="payment-method">Método de Pago *</label>
+          <select id="payment-method" name="paymentMethod" required>
+            <option value="">Selecciona un método de pago</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="plin">PLIN</option>
+          </select>
+        </div>
+
+        <div id="plin-info" class="plin-info" style="display: none;">
+          <div class="info-box">
+            <p><strong>📱 Número PLIN:</strong></p>
+            <p class="plin-number">967 159 171</p>
+            <p class="plin-note">Por favor, realiza la transferencia y envía el comprobante por WhatsApp.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="notes">Notas adicionales (opcional)</label>
           <textarea 
             id="notes" 
@@ -103,6 +120,8 @@ import CartStore from '../components/CartStore.astro';
   const sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
   const customerNameInput = document.getElementById('customer-name');
   const notesInput = document.getElementById('notes');
+  const paymentMethodSelect = document.getElementById('payment-method');
+  const plinInfoDiv = document.getElementById('plin-info');
 
   // Verificar que haya items en el carrito
   function checkCart() {
@@ -242,6 +261,16 @@ import CartStore from '../components/CartStore.astro';
     });
   }
 
+  // Manejar cambio de método de pago
+  if (paymentMethodSelect) {
+    paymentMethodSelect.addEventListener('change', (e) => {
+      const selectedMethod = e.target.value;
+      if (plinInfoDiv) {
+        plinInfoDiv.style.display = selectedMethod === 'plin' ? 'block' : 'none';
+      }
+    });
+  }
+
   // Enviar pedido por WhatsApp
   function sendWhatsApp() {
     if (!window.cartStore) return;
@@ -273,6 +302,18 @@ import CartStore from '../components/CartStore.astro';
       return;
     }
 
+    const paymentMethod = paymentMethodSelect?.value;
+    if (!paymentMethod) {
+      showAlert({
+        icon: 'warning',
+        title: 'Método de pago requerido',
+        text: 'Por favor selecciona un método de pago',
+        confirmButtonColor: '#8B4513'
+      });
+      paymentMethodSelect?.focus();
+      return;
+    }
+
     const subtotal = window.cartStore.getTotal();
     if (subtotal < selectedZone.minOrder) {
       showAlert({
@@ -288,7 +329,12 @@ import CartStore from '../components/CartStore.astro';
     let message = '*🍔 PEDIDO SEÑORA QUMARA*\n\n';
     message += `*Cliente:* ${customerName}\n`;
     message += `*Zona:* ${selectedZone.district}\n`;
-    message += `*Tiempo estimado:* ${selectedZone.time}\n\n`;
+    message += `*Tiempo estimado:* ${selectedZone.time}\n`;
+    message += `*Método de Pago:* ${paymentMethod === 'efectivo' ? 'Efectivo 💵' : 'PLIN 📱'}\n`;
+    if (paymentMethod === 'plin') {
+      message += `*Número PLIN:* 967 159 171\n`;
+    }
+    message += '\n';
     message += '*--- PRODUCTOS ---*\n';
     
     items.forEach((item, index) => {
@@ -320,6 +366,26 @@ import CartStore from '../components/CartStore.astro';
       sendWhatsAppBtn.disabled = true;
       sendWhatsAppBtn.innerHTML = '<span>⏳</span> Enviando...';
     }
+
+    // Enviar notificación a Telegram
+    const telegramBotToken = '8350609465:AAF5jY2py4ujV123KzfSNOOuHgKU0EsEGdA';
+    const telegramChatId = '6048503687';
+    const telegramUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    
+    fetch(telegramUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: telegramChatId,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    }).catch(err => {
+      console.error('Error enviando a Telegram:', err);
+      // No mostrar error al usuario, es solo una notificación interna
+    });
 
     const phoneNumber = '51967159171';
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -443,6 +509,41 @@ import CartStore from '../components/CartStore.astro';
   .form-group textarea {
     resize: vertical;
     min-height: 80px;
+  }
+
+  .plin-info {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .info-box p {
+    margin: 0.5rem 0;
+  }
+
+  .plin-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+
+  .plin-note {
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0.95;
+    margin-top: 1rem;
   }
 
   .summary-row {
