@@ -30,5 +30,13 @@
     "time": "50-60 min",
     "minOrder": 40,
     "freeShipping": 100
+  },
+  {
+    "id": 5,
+    "district": "Fiscalia",
+    "price": 0,
+    "time": "1 pm llega el menu",
+    "minOrder": 0,
+    "freeShipping": 0
   }
 ]
