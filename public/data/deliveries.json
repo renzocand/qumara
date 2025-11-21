@@ -2,7 +2,7 @@
   {
     "id": 1,
     "district": "Trujillo",
-    "price": 7,
+    "price": 8,
     "time": "30-45 min",
     "minOrder": 25,
     "freeShipping": 70
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "district": "Victor Larco",
-    "price": 10,
+    "price": 12,
     "time": "35-45 min",
     "minOrder": 35,
     "freeShipping": 90
