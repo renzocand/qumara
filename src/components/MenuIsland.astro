@@ -38,9 +38,10 @@
   let currentSubcategory = 'Todos';
   
   // Paginación
-  const ITEMS_PER_PAGE = 9;
+  const ITEMS_PER_PAGE = 12;
   let currentPage = 1;
   let totalPages = 1;
+  let shouldScroll = false; // Control para saber si debe hacer scroll
 
   const categoryContainer = document.getElementById('category-filters');
   const subCategoryContainer = document.getElementById('subcategory-filters');
@@ -174,9 +175,13 @@
     // Actualizar paginación
     updatePagination(filteredData.length);
     
-    // Scroll suave al inicio de la grilla al cambiar de página
-    if (productsGrid.firstElementChild) {
-      productsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll suave al inicio de la grilla solo al cambiar de página (no al cambiar filtros)
+    if (shouldScroll && productsGrid.firstElementChild) {
+      const filtersContainer = document.querySelector('.filters-container');
+      if (filtersContainer) {
+        filtersContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      shouldScroll = false;
     }
   }
 
@@ -316,6 +321,7 @@
   function goToPage(page) {
     if (page < 1 || page > totalPages) return;
     currentPage = page;
+    shouldScroll = true; // Activar scroll solo al cambiar de página
     renderProducts();
   }
 
