@@ -1,15 +1,23 @@
 ---
-const currentPath = Astro.url.pathname;
+// Normalizar el path eliminando trailing slash para comparación
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function isActive(path: string) {
+  if (path === '/') {
+    return currentPath === '/';
+  }
+  return currentPath === path || currentPath.startsWith(path + '/');
+}
 ---
 <header>
   <div class="logo" aria-label="Logo Señora Qumara">Señora Qumara</div>
   <nav>
     <ul role="menubar">
-      <li><a href="/" class:list={[currentPath === '/' && 'active']} role="menuitem">Inicio</a></li>
-      <li><a href="/menu" class:list={[currentPath === '/menu' && 'active']} role="menuitem">Menú</a></li>
-      <li><a href="/delivery" class:list={[currentPath === '/delivery' && 'active']} role="menuitem">Delivery</a></li>
-      <li><a href="/nosotros" class:list={[currentPath === '/nosotros' && 'active']} role="menuitem">Nosotros</a></li>
-      <li><a href="/cart" class:list={[currentPath === '/cart' && 'active', 'cart-link']} role="menuitem">
+      <li><a href="/" class:list={[isActive('/') && 'active']} role="menuitem">Inicio</a></li>
+      <li><a href="/menu" class:list={[isActive('/menu') && 'active']} role="menuitem">Menú</a></li>
+      <li><a href="/delivery" class:list={[isActive('/delivery') && 'active']} role="menuitem">Delivery</a></li>
+      <li><a href="/nosotros" class:list={[isActive('/nosotros') && 'active']} role="menuitem">Nosotros</a></li>
+      <li><a href="/cart" class:list={[isActive('/cart') && 'active', 'cart-link']} role="menuitem">
         🛒 Carrito <span id="header-cart-count" class="cart-badge">0</span>
       </a></li>
     </ul>

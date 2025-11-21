@@ -7,6 +7,13 @@
   </div>
 
   <div id="products-grid" class="menu-grid"></div>
+  
+  <!-- Paginación -->
+  <div id="pagination-container" class="pagination">
+    <button id="prev-page" class="pagination-btn" disabled>← Anterior</button>
+    <div id="page-info" class="page-info">Página 1 de 1</div>
+    <button id="next-page" class="pagination-btn" disabled>Siguiente →</button>
+  </div>
 </div>
 
 <script is:inline>
@@ -29,10 +36,19 @@
   let menuData = [];
   let currentCategory = 'Todos';
   let currentSubcategory = 'Todos';
+  
+  // Paginación
+  const ITEMS_PER_PAGE = 9;
+  let currentPage = 1;
+  let totalPages = 1;
 
   const categoryContainer = document.getElementById('category-filters');
   const subCategoryContainer = document.getElementById('subcategory-filters');
   const productsGrid = document.getElementById('products-grid');
+  const paginationContainer = document.getElementById('pagination-container');
+  const prevPageBtn = document.getElementById('prev-page');
+  const nextPageBtn = document.getElementById('next-page');
+  const pageInfo = document.getElementById('page-info');
 
   function getUniqueCategories() {
     const cats = menuData.map(item => item.category);
@@ -80,6 +96,7 @@
   function selectCategory(cat) {
     currentCategory = cat;
     currentSubcategory = 'Todos';
+    currentPage = 1; // Resetear a primera página
     document.querySelectorAll('.category-btn').forEach(b => {
       b.classList.toggle('active', b.textContent === cat);
     });
@@ -89,6 +106,7 @@
 
   function selectSubcategory(sub) {
     currentSubcategory = sub;
+    currentPage = 1; // Resetear a primera página
     document.querySelectorAll('.subcategory-btn').forEach(b => {
       b.classList.toggle('active', b.textContent === sub);
     });
@@ -98,6 +116,8 @@
   function renderProducts() {
     if (!productsGrid) return;
     productsGrid.innerHTML = '';
+    
+    // Filtrar productos
     const filteredData = menuData.filter(item => {
       const catMatch = currentCategory === 'Todos' || item.category === currentCategory;
       const subMatch = currentSubcategory === 'Todos' || item.subcategory === currentSubcategory;
@@ -105,11 +125,19 @@
     });
 
     if (filteredData.length === 0) {
-      productsGrid.innerHTML = '<p>No se encontraron productos.</p>';
+      productsGrid.innerHTML = '<p class="no-products">No se encontraron productos.</p>';
+      updatePagination(0);
       return;
     }
 
-    filteredData.forEach(product => {
+    // Calcular paginación
+    totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+
+    // Renderizar solo los productos de la página actual
+    paginatedData.forEach(product => {
       const card = document.createElement('article');
       card.className = 'product-card';
       card.dataset.productId = product.id;
@@ -142,6 +170,14 @@
     // Event listeners para botones de añadir (usando event delegation para mejor performance)
     productsGrid.removeEventListener('click', handleAddToCart);
     productsGrid.addEventListener('click', handleAddToCart);
+    
+    // Actualizar paginación
+    updatePagination(filteredData.length);
+    
+    // Scroll suave al inicio de la grilla al cambiar de página
+    if (productsGrid.firstElementChild) {
+      productsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function handleAddToCart(e) {
@@ -255,6 +291,41 @@
       if (addButton) addButton.style.display = 'block';
       if (quantityControls) quantityControls.style.display = 'none';
     }
+  }
+
+  // Funciones de paginación
+  function updatePagination(totalItems) {
+    if (!paginationContainer || !pageInfo || !prevPageBtn || !nextPageBtn) return;
+    
+    if (totalItems === 0) {
+      paginationContainer.style.display = 'none';
+      return;
+    }
+    
+    paginationContainer.style.display = 'flex';
+    totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    
+    // Actualizar info de página
+    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+    
+    // Actualizar botones
+    prevPageBtn.disabled = currentPage === 1;
+    nextPageBtn.disabled = currentPage === totalPages;
+  }
+
+  function goToPage(page) {
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderProducts();
+  }
+
+  // Event listeners para paginación
+  if (prevPageBtn) {
+    prevPageBtn.addEventListener('click', () => goToPage(currentPage - 1));
+  }
+  
+  if (nextPageBtn) {
+    nextPageBtn.addEventListener('click', () => goToPage(currentPage + 1));
   }
 
   // Initialize after fetching data
@@ -509,5 +580,73 @@
   @keyframes btnPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
+  }
+
+  /* Paginación */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 3rem 0;
+    padding: 1.5rem;
+  }
+
+  .pagination-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .pagination-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .page-info {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .no-products {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    grid-column: 1 / -1;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pagination {
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .pagination-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .page-info {
+      font-size: 0.9rem;
+      min-width: 100px;
+    }
   }
 </style>
