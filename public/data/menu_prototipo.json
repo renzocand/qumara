@@ -318,5 +318,25 @@
     "subcategory": "Menú del Día",
     "img": "/img/proceso.webp",
     "description": "Este tallarin es rico"
+  },
+  {
+    "id": 33,
+    "name": "Filete de pollo en salsa chimichurri",
+    "slug": "filete-de-pollo-en-salsa-chimichurri",
+    "price": 16,
+    "category": "Almuerzos",
+    "subcategory": "Dietas",
+    "img": "/img/proceso.webp",
+    "description": "Este filte tiene salsa.."
+  },
+  {
+    "id": 34,
+    "name": "Brochetas de pollo con camote",
+    "slug": "brochetas-de-pollo-con-camote",
+    "price": 16,
+    "category": "Almuerzos",
+    "subcategory": "Dietas",
+    "img": "/img/proceso.webp",
+    "description": ""
   }
 ]
