@@ -308,5 +308,15 @@
     "subcategory": "Mantequillas",
     "img": "/img/proceso.webp",
     "description": "Mantequilla de maní 100% natural, sin azúcar. Cremosa, energética y casera."
+  },
+  {
+    "id": 32,
+    "name": "Tallarin saltado",
+    "slug": "tallarin-saltado",
+    "price": 14,
+    "category": "Almuerzos",
+    "subcategory": "Menú del Día",
+    "img": "/img/proceso.webp",
+    "description": "Este tallarin es rico"
   }
 ]
