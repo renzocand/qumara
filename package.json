@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "update-menu": "node scripts/excel-to-json.js"
+    "update-menu": "node scripts/excel-to-json.js",
+    "deploy-menu": "node scripts/excel-to-json.js && git add public/restaurant_products.xlsx public/data/menu_prototipo.json public/data/deliveries.json && git commit -m \"Actualizar menú desde Excel\" && git push"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
