@@ -1,6 +1,14 @@
 [
   {
     "id": 1,
+    "district": "Fiscalia",
+    "price": 0,
+    "time": "1 pm llega el menu",
+    "minOrder": 0,
+    "freeShipping": 0
+  },
+  {
+    "id": 2,
     "district": "Trujillo",
     "price": 8,
     "time": "30-45 min",
@@ -8,7 +16,7 @@
     "freeShipping": 70
   },
   {
-    "id": 2,
+    "id": 3,
     "district": "Victor Larco",
     "price": 12,
     "time": "35-45 min",
@@ -16,7 +24,7 @@
     "freeShipping": 90
   },
   {
-    "id": 3,
+    "id": 4,
     "district": "La Esperanza",
     "price": 10,
     "time": "40-50 min",
@@ -24,19 +32,11 @@
     "freeShipping": 90
   },
   {
-    "id": 4,
+    "id": 5,
     "district": "El Porvenir",
     "price": 14,
     "time": "50-60 min",
     "minOrder": 40,
     "freeShipping": 100
-  },
-  {
-    "id": 5,
-    "district": "Fiscalia",
-    "price": 0,
-    "time": "1 pm llega el menu",
-    "minOrder": 0,
-    "freeShipping": 0
   }
 ]

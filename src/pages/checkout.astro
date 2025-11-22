@@ -392,23 +392,26 @@ import CartStore from '../components/CartStore.astro';
     
     const whatsappWindow = window.open(url, '_blank');
     
-    // Restaurar botón
+    // Limpiar carrito automáticamente después de enviar
     setTimeout(() => {
+      window.cartStore.clear();
+      
+      // Restaurar botón y mostrar confirmación
       if (sendWhatsAppBtn) {
         sendWhatsAppBtn.disabled = false;
         sendWhatsAppBtn.innerHTML = '<span>📱</span> Enviar Pedido por WhatsApp';
       }
+      
+      showAlert({
+        icon: 'success',
+        title: '¡Pedido enviado!',
+        text: 'Tu pedido ha sido enviado. Carrito limpiado exitosamente.',
+        confirmButtonColor: '#8B4513',
+        confirmButtonText: 'Volver al inicio'
+      }).then(() => {
+        window.location.href = '/';
+      });
     }, 1500);
-
-    // Preguntar si limpiar carrito
-    if (whatsappWindow) {
-      setTimeout(() => {
-        if (confirm('¿Pedido enviado exitosamente? ¿Deseas limpiar el carrito?')) {
-          window.cartStore.clear();
-          window.location.href = '/';
-        }
-      }, 2500);
-    }
   }
 
   // Event listeners
