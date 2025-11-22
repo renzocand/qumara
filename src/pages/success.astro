@@ -1,0 +1,288 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Pedido Exitoso - Señora Qumara" description="Tu pedido ha sido registrado exitosamente">
+  <div class="success-container">
+    <div class="success-card">
+      <div class="success-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      
+      <h1>¡Pedido Realizado con Éxito!</h1>
+      
+      <p class="success-message">
+        Tu pedido ha sido registrado correctamente. Nos comunicaremos pronto contigo por WhatsApp para confirmar los detalles de tu pedido.
+      </p>
+
+      <div class="contact-info">
+        <p>📱 Te contactaremos al: <strong id="customer-phone"></strong></p>
+        <p>⏰ Tiempo estimado: <strong>En breve</strong></p>
+      </div>
+
+      <button id="whatsapp-reminder-btn" class="btn-whatsapp-reminder">
+        <span>💬</span> Recordar mi Pedido por WhatsApp
+      </button>
+
+      <a href="/menu" class="btn-back-menu">← Volver al Menú</a>
+      <a href="/" class="btn-home">🏠 Ir al Inicio</a>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+  // Helper para mostrar alertas
+  function showAlert(options) {
+    if (typeof Swal !== 'undefined') {
+      return Swal.fire(options);
+    } else {
+      alert(options.text || options.title);
+      return Promise.resolve({ isConfirmed: true });
+    }
+  }
+
+  const customerPhoneEl = document.getElementById('customer-phone');
+  const whatsappReminderBtn = document.getElementById('whatsapp-reminder-btn');
+
+  // Obtener datos del pedido desde sessionStorage
+  const orderMessage = sessionStorage.getItem('orderMessage');
+  const customerPhone = sessionStorage.getItem('customerPhone');
+
+  // Mostrar teléfono del cliente
+  if (customerPhoneEl && customerPhone) {
+    customerPhoneEl.textContent = customerPhone;
+  }
+
+  // Si no hay datos del pedido, redirigir al menú
+  if (!orderMessage) {
+    showAlert({
+      icon: 'warning',
+      title: 'Sin pedido',
+      text: 'No hay información de pedido. Serás redirigido al menú.',
+      confirmButtonColor: '#8B4513'
+    }).then(() => {
+      window.location.href = '/menu';
+    });
+  }
+
+  // Manejar clic en botón de recordatorio por WhatsApp
+  if (whatsappReminderBtn) {
+    whatsappReminderBtn.addEventListener('click', () => {
+      if (!orderMessage) {
+        showAlert({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se encontró información del pedido',
+          confirmButtonColor: '#8B4513'
+        });
+        return;
+      }
+
+      // Agregar comentario adicional al mensaje
+      let reminderMessage = orderMessage;
+      reminderMessage += '\n\n---\n';
+      reminderMessage += '📝 *Recordatorio:* He realizado este pedido y quisiera validar la información. ¿Podrían confirmarme los detalles?';
+      reminderMessage += '\n\n¡Muchas gracias! 😊';
+
+      const phoneNumber = '51967159171';
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(reminderMessage)}`;
+      
+      window.open(url, '_blank');
+
+      // Mostrar confirmación
+      showAlert({
+        icon: 'success',
+        title: '¡Recordatorio enviado!',
+        text: 'Se abrió WhatsApp con tu recordatorio de pedido.',
+        confirmButtonColor: '#8B4513',
+        timer: 3000
+      });
+    });
+  }
+
+  // Limpiar sessionStorage después de 5 minutos (opcional)
+  setTimeout(() => {
+    sessionStorage.removeItem('orderMessage');
+    sessionStorage.removeItem('customerPhone');
+  }, 300000); // 5 minutos
+</script>
+
+<style>
+  .success-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 5%;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .success-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.6s ease-out 0.2s both;
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .success-icon svg {
+    width: 60px;
+    height: 60px;
+    color: white;
+    stroke-width: 3;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+  }
+
+  .success-message {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .contact-info {
+    background: var(--secondary-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-info p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+
+  .contact-info strong {
+    color: var(--primary-color);
+  }
+
+  .btn-whatsapp-reminder {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-whatsapp-reminder span {
+    font-size: 1.5rem;
+  }
+
+  .btn-whatsapp-reminder:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  }
+
+  .btn-back-menu,
+  .btn-home {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .btn-back-menu {
+    background: var(--white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+  }
+
+  .btn-back-menu:hover {
+    background: var(--primary-color);
+    color: var(--white);
+  }
+
+  .btn-home {
+    background: transparent;
+    color: var(--text-light);
+    border: none;
+  }
+
+  .btn-home:hover {
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 768px) {
+    .success-card {
+      padding: 2rem 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .success-message {
+      font-size: 1rem;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    .success-icon svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+</style>

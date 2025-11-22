@@ -32,6 +32,28 @@ import CartStore from '../components/CartStore.astro';
         </div>
 
         <div class="form-group">
+          <label for="customer-phone">Número de Celular *</label>
+          <input 
+            type="tel" 
+            id="customer-phone" 
+            name="customerPhone" 
+            placeholder="Ej: 987654321"
+            pattern="[0-9]{9}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="customer-email">Correo Electrónico (opcional)</label>
+          <input 
+            type="email" 
+            id="customer-email" 
+            name="customerEmail" 
+            placeholder="Ej: correo@ejemplo.com"
+          />
+        </div>
+
+        <div class="form-group">
           <label for="delivery-zone">Zona de Delivery *</label>
           <select id="delivery-zone" name="deliveryZone" required>
             <option value="">Selecciona tu zona</option>
@@ -87,8 +109,8 @@ import CartStore from '../components/CartStore.astro';
         <span id="cost-total">S/. 0.00</span>
       </div>
 
-      <button type="button" id="send-whatsapp-btn" class="btn-whatsapp">
-        <span>📱</span> Enviar Pedido por WhatsApp
+      <button type="button" id="send-order-btn" class="btn-order">
+        <span>✅</span> Realizar Pedido
       </button>
       
       <a href="/cart" class="btn-back">← Volver al Carrito</a>
@@ -117,8 +139,10 @@ import CartStore from '../components/CartStore.astro';
   const freeShippingMessageEl = document.getElementById('free-shipping-message');
   const minOrderInfoEl = document.getElementById('min-order-info');
   const costTotalEl = document.getElementById('cost-total');
-  const sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
+  const sendOrderBtn = document.getElementById('send-order-btn');
   const customerNameInput = document.getElementById('customer-name');
+  const customerPhoneInput = document.getElementById('customer-phone');
+  const customerEmailInput = document.getElementById('customer-email');
   const notesInput = document.getElementById('notes');
   const paymentMethodSelect = document.getElementById('payment-method');
   const plinInfoDiv = document.getElementById('plin-info');
@@ -271,12 +295,14 @@ import CartStore from '../components/CartStore.astro';
     });
   }
 
-  // Enviar pedido por WhatsApp
-  function sendWhatsApp() {
+  // Realizar pedido
+  function realizarPedido() {
     if (!window.cartStore) return;
 
     const items = window.cartStore.items;
     const customerName = customerNameInput?.value.trim();
+    const customerPhone = customerPhoneInput?.value.trim();
+    const customerEmail = customerEmailInput?.value.trim();
     const notes = notesInput?.value.trim();
 
     // Validaciones
@@ -288,6 +314,28 @@ import CartStore from '../components/CartStore.astro';
         confirmButtonColor: '#8B4513'
       });
       customerNameInput?.focus();
+      return;
+    }
+
+    if (!customerPhone) {
+      showAlert({
+        icon: 'warning',
+        title: 'Teléfono requerido',
+        text: 'Por favor ingresa tu número de celular',
+        confirmButtonColor: '#8B4513'
+      });
+      customerPhoneInput?.focus();
+      return;
+    }
+
+    if (customerPhone.length !== 9 || !/^[0-9]+$/.test(customerPhone)) {
+      showAlert({
+        icon: 'warning',
+        title: 'Teléfono inválido',
+        text: 'El número debe tener 9 dígitos',
+        confirmButtonColor: '#8B4513'
+      });
+      customerPhoneInput?.focus();
       return;
     }
 
@@ -328,6 +376,10 @@ import CartStore from '../components/CartStore.astro';
     // Construir mensaje
     let message = '*🍔 PEDIDO SEÑORA QUMARA*\n\n';
     message += `*Cliente:* ${customerName}\n`;
+    message += `*Teléfono:* ${customerPhone}\n`;
+    if (customerEmail) {
+      message += `*Email:* ${customerEmail}\n`;
+    }
     message += `*Zona:* ${selectedZone.district}\n`;
     message += `*Tiempo estimado:* ${selectedZone.time}\n`;
     message += `*Método de Pago:* ${paymentMethod === 'efectivo' ? 'Efectivo 💵' : 'PLIN 📱'}\n`;
@@ -362,9 +414,9 @@ import CartStore from '../components/CartStore.astro';
     message += '\n¡Gracias por tu preferencia! 😊';
 
     // Deshabilitar botón
-    if (sendWhatsAppBtn) {
-      sendWhatsAppBtn.disabled = true;
-      sendWhatsAppBtn.innerHTML = '<span>⏳</span> Enviando...';
+    if (sendOrderBtn) {
+      sendOrderBtn.disabled = true;
+      sendOrderBtn.innerHTML = '<span>⏳</span> Procesando...';
     }
 
     // Enviar notificación a Telegram
@@ -382,40 +434,29 @@ import CartStore from '../components/CartStore.astro';
         text: message,
         parse_mode: 'Markdown'
       })
-    }).catch(err => {
-      console.error('Error enviando a Telegram:', err);
-      // No mostrar error al usuario, es solo una notificación interna
-    });
-
-    const phoneNumber = '51967159171';
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    const whatsappWindow = window.open(url, '_blank');
-    
-    // Limpiar carrito automáticamente después de enviar
-    setTimeout(() => {
+    }).then(() => {
+      // Guardar datos del pedido en sessionStorage para la página de éxito
+      sessionStorage.setItem('orderMessage', message);
+      sessionStorage.setItem('customerPhone', customerPhone);
+      
+      // Limpiar carrito
       window.cartStore.clear();
       
-      // Restaurar botón y mostrar confirmación
-      if (sendWhatsAppBtn) {
-        sendWhatsAppBtn.disabled = false;
-        sendWhatsAppBtn.innerHTML = '<span>📱</span> Enviar Pedido por WhatsApp';
-      }
+      // Redirigir a página de éxito
+      window.location.href = '/success';
+    }).catch(err => {
+      console.error('Error enviando a Telegram:', err);
       
-      showAlert({
-        icon: 'success',
-        title: '¡Pedido enviado!',
-        text: 'Tu pedido ha sido enviado. Carrito limpiado exitosamente.',
-        confirmButtonColor: '#8B4513',
-        confirmButtonText: 'Volver al inicio'
-      }).then(() => {
-        window.location.href = '/';
-      });
-    }, 1500);
+      // Aún así, redirigir a página de éxito
+      sessionStorage.setItem('orderMessage', message);
+      sessionStorage.setItem('customerPhone', customerPhone);
+      window.cartStore.clear();
+      window.location.href = '/success';
+    });
   }
 
   // Event listeners
-  sendWhatsAppBtn?.addEventListener('click', sendWhatsApp);
+  sendOrderBtn?.addEventListener('click', realizarPedido);
 
   // Inicializar
   if (checkCart()) {
@@ -567,9 +608,9 @@ import CartStore from '../components/CartStore.astro';
     color: var(--primary-dark);
   }
 
-  .btn-whatsapp {
+  .btn-order {
     width: 100%;
-    background: #25D366;
+    background: var(--primary-color);
     color: white;
     border: none;
     padding: 1.2rem;
@@ -585,17 +626,17 @@ import CartStore from '../components/CartStore.astro';
     gap: 0.5rem;
   }
 
-  .btn-whatsapp span {
+  .btn-order span {
     font-size: 1.5rem;
   }
 
-  .btn-whatsapp:hover:not(:disabled) {
-    background: #128C7E;
+  .btn-order:hover:not(:disabled) {
+    background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    box-shadow: 0 6px 20px rgba(211, 84, 0, 0.4);
   }
 
-  .btn-whatsapp:disabled {
+  .btn-order:disabled {
     background: #a0a0a0;
     cursor: not-allowed;
     opacity: 0.7;
