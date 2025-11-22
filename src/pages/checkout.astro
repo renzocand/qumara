@@ -413,44 +413,47 @@ import CartStore from '../components/CartStore.astro';
 
     message += '\n¡Gracias por tu preferencia! 😊';
 
+    // Agregar link de WhatsApp del cliente para Telegram
+    const whatsappLink = `https://wa.me/51${customerPhone}`;
+    const confirmationMessage = encodeURIComponent(`Hola ${customerName}, tu pedido ha sido confirmado con éxito. \n\n${message}\n\nEn breve nos comunicaremos contigo para coordinar la entrega. ¡Gracias por tu preferencia! 😊`);
+    const telegramMessage = message + `\n\n📱 *Contactar cliente:* ${whatsappLink}?text=${confirmationMessage}`;
+
     // Deshabilitar botón
     if (sendOrderBtn) {
       sendOrderBtn.disabled = true;
       sendOrderBtn.innerHTML = '<span>⏳</span> Procesando...';
     }
 
-    // Enviar notificación a Telegram
+    // Enviar notificación a Telegram (a ambos IDs)
     const telegramBotToken = '8350609465:AAF5jY2py4ujV123KzfSNOOuHgKU0EsEGdA';
-    const telegramChatId = '6048503687';
+    const telegramChatIds = ['6048503687', '6118910793'];
     const telegramUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
     
-    fetch(telegramUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: telegramChatId,
-        text: message,
-        parse_mode: 'Markdown'
-      })
-    }).then(() => {
+    // Enviar a ambos chats de Telegram
+    const telegramPromises = telegramChatIds.map(chatId => 
+      fetch(telegramUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: telegramMessage,
+          parse_mode: 'Markdown'
+        })
+      }).catch(err => console.error(`Error enviando a Telegram ${chatId}:`, err))
+    );
+    
+    Promise.all(telegramPromises).finally(() => {
       // Guardar datos del pedido en sessionStorage para la página de éxito
       sessionStorage.setItem('orderMessage', message);
       sessionStorage.setItem('customerPhone', customerPhone);
+      sessionStorage.setItem('paymentMethod', paymentMethod);
       
       // Limpiar carrito
       window.cartStore.clear();
       
       // Redirigir a página de éxito
-      window.location.href = '/success';
-    }).catch(err => {
-      console.error('Error enviando a Telegram:', err);
-      
-      // Aún así, redirigir a página de éxito
-      sessionStorage.setItem('orderMessage', message);
-      sessionStorage.setItem('customerPhone', customerPhone);
-      window.cartStore.clear();
       window.location.href = '/success';
     });
   }

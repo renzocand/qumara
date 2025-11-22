@@ -23,9 +23,21 @@ import Layout from '../layouts/Layout.astro';
         <p>⏰ Tiempo estimado: <strong>En breve</strong></p>
       </div>
 
-      <button id="whatsapp-reminder-btn" class="btn-whatsapp-reminder">
-        <span>💬</span> Recordar mi Pedido por WhatsApp
-      </button>
+      <div id="plin-payment-info" class="plin-payment-info" style="display: none;">
+        <div class="plin-box">
+          <p class="plin-title">💳 Información de Pago PLIN</p>
+          <p class="plin-number-display">967 159 171</p>
+          <p class="plin-instruction">Por favor, realiza la transferencia y envía el comprobante cuando te contactemos por WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="reminder-section">
+        <p class="reminder-text">¿No te escribieron por WhatsApp?</p>
+        <p class="reminder-subtext">Confirma tu pedido aquí:</p>
+        <button id="whatsapp-reminder-btn" class="btn-whatsapp-reminder">
+          <span>💬</span> Recordar mi Pedido por WhatsApp
+        </button>
+      </div>
 
       <a href="/menu" class="btn-back-menu">← Volver al Menú</a>
       <a href="/" class="btn-home">🏠 Ir al Inicio</a>
@@ -46,14 +58,21 @@ import Layout from '../layouts/Layout.astro';
 
   const customerPhoneEl = document.getElementById('customer-phone');
   const whatsappReminderBtn = document.getElementById('whatsapp-reminder-btn');
+  const plinPaymentInfo = document.getElementById('plin-payment-info');
 
   // Obtener datos del pedido desde sessionStorage
   const orderMessage = sessionStorage.getItem('orderMessage');
   const customerPhone = sessionStorage.getItem('customerPhone');
+  const paymentMethod = sessionStorage.getItem('paymentMethod');
 
   // Mostrar teléfono del cliente
   if (customerPhoneEl && customerPhone) {
     customerPhoneEl.textContent = customerPhone;
+  }
+
+  // Mostrar información de PLIN si el método de pago es PLIN
+  if (paymentMethod === 'plin' && plinPaymentInfo) {
+    plinPaymentInfo.style.display = 'block';
   }
 
   // Si no hay datos del pedido, redirigir al menú
@@ -200,6 +219,74 @@ import Layout from '../layouts/Layout.astro';
     color: var(--primary-color);
   }
 
+  .plin-payment-info {
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .plin-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-align: center;
+  }
+
+  .plin-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .plin-number-display {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+
+  .plin-instruction {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+
+  .reminder-section {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .reminder-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #856404;
+    margin-bottom: 0.5rem;
+  }
+
+  .reminder-subtext {
+    font-size: 0.95rem;
+    color: #856404;
+    margin-bottom: 1rem;
+  }
+
   .btn-whatsapp-reminder {
     width: 100%;
     background: #25D366;
@@ -215,7 +302,6 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
   }
 
   .btn-whatsapp-reminder span {
